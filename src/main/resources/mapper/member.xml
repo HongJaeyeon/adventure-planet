@@ -18,10 +18,10 @@
 		values (#{email}, #{nickname}, #{password})
 	</insert>
 
-	<select id="loginMember" parameterType="map" resultMap="member">
+	<select id="loginMember" parameterType="memberDto" resultMap="member">
 		select email, nickname
 		from member
-		where email = #{userid} and password = #{userpwd}
+		where email = #{email} and password = #{password}
 	</select>
 	
 </mapper>
