@@ -112,12 +112,6 @@
             <mark class="orange">SSAFY 게시판 - Spring Web MVC &amp; Spring myBatis &amp; REST API</mark>
           </h2>
         </div>
-        <div class="col-lg-8 col-md-10 col-sm-12 text-center">
-          <a href="${root}/article/list?pgno=1&key=&word=">글목록</a><br>
-          <c:if test="${userinfo.userId eq 'admin'}">
-	      		<a href="${root}/user/list">회원목록</a><br />
-	      	</c:if>
-        </div>
       </div>
     </div>
   </c:if>

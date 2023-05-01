@@ -65,7 +65,7 @@ public class BoardController {
 			RedirectAttributes redirectAttributes) throws Exception {
 		logger.debug("write boardDto : {}", boardDto);
 		MemberDto memberDto = (MemberDto) session.getAttribute("userinfo");
-		boardDto.setUserId(memberDto.getUserId());
+		boardDto.setUserId(memberDto.getNickname());
 
 //		FileUpload 관련 설정.
 		logger.debug("MultipartFile.isEmpty : {}", files[0].isEmpty());

@@ -2,65 +2,42 @@ package com.ssafy.member.model;
 
 public class MemberDto {
 
-	private String userId;
-	private String userName;
-	private String userPwd;
-	private String emailId;
-	private String emailDomain;
-	private String joinDate;
-
-	public String getUserId() {
-		return userId;
+	private int user_id; //int
+	private String email; //실제 로그인
+	private String nickname;
+	private String password;
+	
+	public int getUser_id() {
+		return user_id;
 	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
 	}
-
-	public String getUserName() {
-		return userName;
+	public String getEmail() {
+		return email;
 	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setEmail(String email) {
+		this.email = email;
 	}
-
-	public String getUserPwd() {
-		return userPwd;
+	public String getNickname() {
+		return nickname;
 	}
-
-	public void setUserPwd(String userPwd) {
-		this.userPwd = userPwd;
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
-
-	public String getEmailId() {
-		return emailId;
+	public String getPassword() {
+		return password;
 	}
-
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
+	public void setPassword(String password) {
+		this.password = password;
 	}
-
-	public String getEmailDomain() {
-		return emailDomain;
-	}
-
-	public void setEmailDomain(String emailDomain) {
-		this.emailDomain = emailDomain;
-	}
-
-	public String getJoinDate() {
-		return joinDate;
-	}
-
-	public void setJoinDate(String joinDate) {
-		this.joinDate = joinDate;
-	}
-
+	
 	@Override
 	public String toString() {
-		return "MemberDto [userId=" + userId + ", userName=" + userName + ", userPwd=" + userPwd + ", emailId="
-				+ emailId + ", emailDomain=" + emailDomain + ", joinDate=" + joinDate + "]";
+		return "MemberDto [user_id=" + user_id + ", email=" + email + ", nickname=" + nickname + ", password="
+				+ password + "]";
 	}
-
+	
+	
+	
 }
