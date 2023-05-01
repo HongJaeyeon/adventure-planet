@@ -12,5 +12,4 @@ public class Board6SpringbootApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(Board6SpringbootApplication.class, args);
 	}
-
 }

@@ -22,9 +22,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	
 	private ConfirmInterceptor confirmInterceptor;
 	
-	@Value("${file.path")
-	private String uploadPath;
-	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		WebMvcConfigurer.super.addResourceHandlers(registry);
@@ -46,7 +43,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/").setViewName("index2");
+		registry.addViewController("/").setViewName("index");
 	}
 
 }
