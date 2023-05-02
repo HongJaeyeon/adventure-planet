@@ -22,6 +22,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	
 	private ConfirmInterceptor confirmInterceptor;
 	
+	@Value("${file.path")
+	private String uploadPath;
+	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		WebMvcConfigurer.super.addResourceHandlers(registry);
