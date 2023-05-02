@@ -20,7 +20,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public void write(ArticleDto articleDto) throws Exception {
-		
+		articleMapper.write(articleDto);
 	}
 
 	@Override
