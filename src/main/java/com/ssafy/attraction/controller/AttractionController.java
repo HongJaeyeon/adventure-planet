@@ -36,6 +36,6 @@ public class AttractionController {
 		List<AttractionDto> list = attractionService.searchAttraction(map);
 		
 		return new ResponseEntity<List<AttractionDto>>(list, HttpStatus.OK);
-		
+		  
 	}
 }
