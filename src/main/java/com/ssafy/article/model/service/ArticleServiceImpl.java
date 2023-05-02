@@ -25,27 +25,23 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public void modify(ArticleDto articleDto) throws Exception {
+		articleMapper.modify(articleDto);
 	}
 
 	@Override
-	public void delete(String articleNo) throws Exception {
+	public void delete(int articleNo) throws Exception {
+		articleMapper.delete(articleNo);	
 	}
+	
 
 	@Override
-	public ArticleDto detail(ArticleDto articleDto) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ArticleDto> list(Map<String, String> map) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public ArticleDto detail(int articleNo) throws Exception {
+		return articleMapper.detail(articleNo);
 	}
 
 
 	@Override
-	public List<ArticleDto> listByAdmin() throws Exception {
-		return articleMapper.listByAdmin();
+	public List<ArticleDto> list() throws Exception {
+		return articleMapper.list();
 	}
 }

@@ -11,15 +11,32 @@
 		<result column="article_content" property="articleContent"/>
 		<result column="article_status" property="articleStatus"/>
 	</resultMap>
-
 	
 	<!-- parameterMap="article"을 쓰려면 parameterMap을 만들어야함 아닐 시 type -->
 	<insert id="write" parameterType="articleDto">
-		insert into article (article_no, user_id, article_title, article_content, article_status)
-		values (#{articleNo}, #{userId}, #{articleTitle}, #{articleContent}, #{articleStatus})
+		insert into article (user_id, article_title, article_content)
+		values (#{userId}, #{articleTitle}, #{articleContent})
 	</insert>
-		
-	<select id="listByAdmin" resultMap="article">
+	
+	<update id="modify" parameterType="articleDto">
+		update article
+		set article_title = #{articleTitle}, article_content = #{articleContent}
+		where article_no = #{articleNo}
+	</update>
+	
+	<update id="delete" parameterType="int">
+		update article
+		set article_status = 0
+		where article_no = #{articleNo}
+	</update>
+	
+	<select id="detail" resultMap="article">
+		select *
+		from article
+		where article_no = #{articleNo}
+	</select>
+			
+	<select id="list" resultMap="article">
 		select *
 		from article
 	</select>
