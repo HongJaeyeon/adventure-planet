@@ -13,9 +13,10 @@
 	</resultMap>
 	
 	<!-- parameterMap="article"을 쓰려면 parameterMap을 만들어야함 아닐 시 type -->
+	<!-- 공지사항 체크 시 프론트앤드에서 aritlceStatus를 2로 변경해야함 기본으로 1 -->
 	<insert id="write" parameterType="articleDto">
-		insert into article (user_id, article_title, article_content)
-		values (#{userId}, #{articleTitle}, #{articleContent})
+		insert into article (user_id, article_title, article_content, article_status)
+		values (#{userId}, #{articleTitle}, #{articleContent}, #{articleStatus})
 	</insert>
 	
 	<update id="modify" parameterType="articleDto">
