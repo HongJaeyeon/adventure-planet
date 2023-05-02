@@ -14,10 +14,23 @@
 	</resultMap>
 	
 	<!-- User Regist -->
-	<insert id="regist" parameterType="map">
+	<insert id="regist" parameterType="userDto">
 		insert into user (user_id, user_email, user_password, user_name)
 		values (#{userId}, #{userEmail}, #{userPassword}, #{userName})
 	</insert>
+	
+	<!-- User Login -->
+	<select id="login" parameterType="userDto" resultMap="user">
+		select *
+		from user
+		where user_id = #{userId} and user_password = #{userPassword}
+	</select>
+	
+	<!-- User List -->
+	<select id="list" resultMap="user">
+		select *
+		from user
+	</select>
 	
 	<!-- User Detail -->
 	<select id="detail" parameterType="string" resultMap="user">
@@ -25,5 +38,12 @@
 		from user
 		where user_id = #{userId}
 	</select>
+	
+	<!-- User Leave -->
+	<update id="leave" parameterType="string">
+		update user
+		set user_status = 0
+		where user_id = #{userId}
+	</update>
 	
 </mapper>

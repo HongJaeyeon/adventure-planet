@@ -3,6 +3,7 @@ package com.ssafy.user.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,22 +43,20 @@ public class UserController {
 	}
 	
 	@PostMapping("/regist")
-	public ResponseEntity<?> regist(@RequestBody Map<String, String> param) throws IOException {
+	public ResponseEntity<?> regist(@RequestBody UserDto userDto) {
 		try {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("userId", param.get("member_id"));
-			map.put("userEmail", param.get("member_email"));
-			map.put("userPassword", param.get("member_password"));
-			map.put("userName", param.get("member_name"));
-			UserDto userDto = userService.regist(map);
-			
-//			UserDto userDto = new UserDto();
-//			userDto.setUserId(param.get("member_id"));
-//			userDto.setUserEmail(param.get("member_email"));
-//			userDto.setUserPassword(param.get("member_password"));
-//			userDto.setUserName(param.get("member_name"));
-			
-			return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
+			UserDto resultUserDto = userService.regist(userDto);
+			return new ResponseEntity<UserDto>(resultUserDto, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody UserDto userDto) {
+		try {
+			UserDto resultUserDto = userService.login(userDto);
+			return new ResponseEntity<UserDto>(resultUserDto, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -111,6 +112,16 @@ public class UserController {
 		return null;
 	}
 	
+	@GetMapping("/list")
+	public ResponseEntity<?> list() {
+		try {
+			List<UserDto> resultUserList = userService.list();
+			return new ResponseEntity<List<UserDto>>(resultUserList, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
 	private String logout(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 //		session.removeAttribute("userinfo");
@@ -119,21 +130,35 @@ public class UserController {
 		return "";
 	}
 	
-	private String leave(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		HttpSession session = request.getSession();
-		UserDto UserDto=(UserDto)session.getAttribute("userinfo");
-		
-		boolean quit=false;
+	@GetMapping("/detail/{userId}")
+	public ResponseEntity<?> detail(@PathVariable("userId") String userId) {
 		try {
-			quit = userService.delete(UserDto);
-		} catch (SQLException e) {
+			UserDto resultUserDto = userService.detail(userId);
+			return new ResponseEntity<UserDto>(resultUserDto, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
 		}
-		
-		if(quit)
-			request.setAttribute("msg",(String)"정상적으로 탈퇴되었습니다.");
-		else
-			request.setAttribute("msg",(String)"회원탈퇴에 실패하였습니다.");
-		return "/index.jsp";
 	}
+	
+	@PostMapping("/leave/{userId}")
+	public ResponseEntity<?> leave(@PathVariable("userId") String userId) {
+		try {
+			UserDto resultUserDto = userService.leave(userId);
+			return new ResponseEntity<UserDto>(resultUserDto, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	// 작성 미완료
+//	@PostMapping("/update/{userid}")
+//	public ResponseEntity<?> update(@PathVariable("userId") String userId) {
+//		try {
+//			UserDto resultUserDto = userService.update(userId);
+//			return new ResponseEntity<UserDto>(resultUserDto, HttpStatus.OK);
+//		} catch (Exception e) {
+//			return exceptionHandling(e);
+//		}
+//	}
 	
 }

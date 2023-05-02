@@ -2,6 +2,7 @@ package com.ssafy.user.model.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -19,30 +20,30 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public UserDto regist(Map<String, Object> map) throws SQLException {
-		userMapper.regist(map);
-		return userMapper.detail((String) map.get("userId"));
+	public UserDto regist(UserDto userDto) throws SQLException {
+		userMapper.regist(userDto);
+		return userMapper.detail(userDto.getUserId());
 	}
 	
 	@Override
-	public UserDto login(String email) throws SQLException {
-		return userMapper.login(email);
+	public UserDto login(UserDto userDto) throws SQLException {
+		return userMapper.login(userDto);
 	}
 
 	@Override
-	public ArrayList<UserDto> list() {
-		userMapper.list();
-		return null;
+	public List<UserDto> list() {
+		return userMapper.list();
 	}
 
 	@Override
-	public void detail(String userId) {
-		userMapper.detail(userId);
+	public UserDto detail(String userId) {
+		return userMapper.detail(userId);
 	}
 
 	@Override
-	public boolean delete(UserDto user) throws SQLException {
-		return userMapper.delete(user);
+	public UserDto leave(String userId) throws SQLException {
+		userMapper.leave(userId);
+		return userMapper.detail(userId);
 	}
 	
 }
