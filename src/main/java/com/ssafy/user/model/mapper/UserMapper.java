@@ -3,14 +3,14 @@ package com.ssafy.user.model.mapper;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import dto.Member;
+import com.ssafy.user.model.UserDto;
 
 public interface UserMapper {
 	
-	public int regist(Member member) throws SQLException;
-	public Member login(String email) throws SQLException;
-	public ArrayList<Member> list();
+	public int regist(UserDto member) throws SQLException;
+	public UserDto login(String email) throws SQLException;
+	public ArrayList<UserDto> list();
 	public void detail();
-	public boolean delete(Member member) throws SQLException;
+	public boolean delete(UserDto member) throws SQLException;
 
 }

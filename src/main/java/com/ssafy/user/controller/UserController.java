@@ -10,23 +10,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.stereotype.Controller;
+
+import com.ssafy.user.model.UserDto;
+import com.ssafy.user.model.service.UserService;
 import com.ssafy.util.Crypt;
 
-import dto.Member;
-import service.MemberService;
-import service.MemberServiceImpl;
-
+@Controller
 public class UserController {
 	
 	private static final long serialVersionUID = 1L;
     
-	private MemberService memberService;
+	private UserService userService;
 	private Crypt crypt;
-	
-    public void init() {
-    	memberService = MemberServiceImpl.getInstance();
-    	crypt = Crypt.getInstance();
-    }
+
+	public UserController(UserService userService, Crypt crypt) {
+		super();
+		this.userService = userService;
+		this.crypt = crypt;
+	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -91,17 +93,17 @@ public class UserController {
 	private String regist(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
 		try {
-			Member member = new Member();
-			member.setEmail(request.getParameter("regist-email"));
-			member.setNickname(request.getParameter("nickname"));
-			member.setPassword(crypt.encryptPw(request.getParameter("regist-password")));
+			UserDto UserDto = new UserDto();
+//			UserDto.setEmail(request.getParameter("regist-email"));
+//			UserDto.setNickname(request.getParameter("nickname"));
+//			UserDto.setPassword(crypt.encryptPw(request.getParameter("regist-password")));
 			
 			if(!request.getParameter("regist-password").equals(request.getParameter("regist-password-con"))) {
 				request.setAttribute("msg",(String)"비밀번호와 비밀번호 확인이 다릅니다.");
 				return "/index.jsp";
 			}
 			
-			memberService.regist(member);
+			userService.regist(UserDto);
 			
 			return "/index.jsp";
 		} catch (Exception e) {
@@ -112,46 +114,48 @@ public class UserController {
 	}
 	
 	private String login(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		// 1. 아이디, 비밀번호 가져오기
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		// 2. 일을 시키기
-		try {
-			Member member = memberService.login(email);
-			if(member != null && crypt.checkPw(password, member.getPassword())) { // 로그인 성공
-//						session 설정
-				HttpSession session = request.getSession();
-				session.setAttribute("userinfo", member);
-				
-//						cookie 설정
-//				String idsave = request.getParameter("saveid"); // 아이디 저장 체크 여부 가져오기
-//				if("ok".equals(idsave)) { // 아이디 저장을 체크 했다면.
-//					Cookie cookie = new Cookie("ssafy_id", email);
-//					cookie.setPath(request.getContextPath());
-//					cookie.setMaxAge(60 * 60 * 24 * 365 * 40); //40년간 저장.
-//					response.addCookie(cookie);
-//				} else { //아이디 저장을 해제 했다면.
-//					Cookie cookies[] = request.getCookies();
-//					if(cookies != null) {
-//						for(Cookie cookie : cookies) {
-//							if("ssafy_id".equals(cookie.getName())) {
-//								cookie.setMaxAge(0);
-//								response.addCookie(cookie);
-//								break;
-//							}
-//						}
-//					}
-//				}
-				
-				return "/index.jsp";
-			} else {
-				request.setAttribute("msg", (String)"아이디 또는 비밀번호 확인 후 다시 로그인하세요.");
-				return "/index.jsp";
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "";
-		}
+//		// 1. 아이디, 비밀번호 가져오기
+//		String email = request.getParameter("email");
+//		String password = request.getParameter("password");
+//		// 2. 일을 시키기
+//		try {
+//			UserDto UserDto = userService.login(email);
+//			if(UserDto != null && crypt.checkPw(password, UserDto.getPassword())) { // 로그인 성공
+////						session 설정
+//				HttpSession session = request.getSession();
+//				session.setAttribute("userinfo", UserDto);
+//				
+////						cookie 설정
+////				String idsave = request.getParameter("saveid"); // 아이디 저장 체크 여부 가져오기
+////				if("ok".equals(idsave)) { // 아이디 저장을 체크 했다면.
+////					Cookie cookie = new Cookie("ssafy_id", email);
+////					cookie.setPath(request.getContextPath());
+////					cookie.setMaxAge(60 * 60 * 24 * 365 * 40); //40년간 저장.
+////					response.addCookie(cookie);
+////				} else { //아이디 저장을 해제 했다면.
+////					Cookie cookies[] = request.getCookies();
+////					if(cookies != null) {
+////						for(Cookie cookie : cookies) {
+////							if("ssafy_id".equals(cookie.getName())) {
+////								cookie.setMaxAge(0);
+////								response.addCookie(cookie);
+////								break;
+////							}
+////						}
+////					}
+////				}
+//				
+//				return "/index.jsp";
+//			} else {
+//				request.setAttribute("msg", (String)"아이디 또는 비밀번호 확인 후 다시 로그인하세요.");
+//				return "/index.jsp";
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return "";
+//		}
+//		
+		return null;
 	}
 	
 	private String logout(HttpServletRequest request, HttpServletResponse response) {
@@ -164,11 +168,11 @@ public class UserController {
 	
 	private String leave(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession();
-		Member member=(Member)session.getAttribute("userinfo");
+		UserDto UserDto=(UserDto)session.getAttribute("userinfo");
 		
 		boolean quit=false;
 		try {
-			quit = memberService.delete(member);
+			quit = userService.delete(UserDto);
 		} catch (SQLException e) {
 		}
 		

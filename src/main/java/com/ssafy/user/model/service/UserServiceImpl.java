@@ -3,47 +3,42 @@ package com.ssafy.user.model.service;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import dao.MemberDao;
-import dao.MemberDaoImpl;
-import dto.Member;
-import service.MemberService;
-import service.MemberServiceImpl;
+import org.springframework.stereotype.Service;
 
-public class UserServiceImpl {
+import com.ssafy.user.model.UserDto;
+import com.ssafy.user.model.mapper.UserMapper;
+
+@Service
+public class UserServiceImpl implements UserService {
 	
-	private static MemberService memberService = new MemberServiceImpl();
-	private static MemberDao memberDao = MemberDaoImpl.getInstance();
+	private static UserMapper userMapper;
 	
-	public MemberServiceImpl() {}
 	
-	public static MemberService getInstance() {
-		return memberService;
-	}	
 	
 	@Override
-	public int regist(Member member) throws SQLException {
-		return memberDao.regist(member);
+	public int regist(UserDto user) throws SQLException {
+		return userMapper.regist(user);
 	}
 	
 	@Override
-	public Member login(String email) throws SQLException {
-		return memberDao.login(email);
+	public UserDto login(String email) throws SQLException {
+		return userMapper.login(email);
 	}
 
 	@Override
-	public ArrayList<Member> list() {
-		memberDao.list();
+	public ArrayList<UserDto> list() {
+		userMapper.list();
 		return null;
 	}
 
 	@Override
 	public void detail() {
-		memberDao.detail();
+		userMapper.detail();
 	}
 
 	@Override
-	public boolean delete(Member member) throws SQLException {
-		return memberDao.delete(member);
+	public boolean delete(UserDto user) throws SQLException {
+		return userMapper.delete(user);
 	}
 	
 }
