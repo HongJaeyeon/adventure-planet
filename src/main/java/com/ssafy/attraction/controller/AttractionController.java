@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.article.model.ArticleDto;
 import com.ssafy.attraction.model.AttractionDto;
 import com.ssafy.attraction.model.service.AttractionService;
 
@@ -30,12 +31,21 @@ public class AttractionController {
 		this.attractionService = attractionService;
 	}
 	
+	private ResponseEntity<String> exceptionHandling(Exception e) {
+        e.printStackTrace();
+        return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+	
 	@PostMapping("/search")
 	public ResponseEntity<?> searchAttraction(@RequestBody Map<String, Object> map) {
-		logger.debug("Map info : {}", map);
-		List<AttractionDto> list = attractionService.searchAttraction(map);
 		
-		return new ResponseEntity<List<AttractionDto>>(list, HttpStatus.OK);
-		  
+		try {
+			logger.debug("Map info : {}", map);
+			List<AttractionDto> list = attractionService.searchAttraction(map);
+			
+			return new ResponseEntity<List<AttractionDto>>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
 	}
 }
