@@ -4,6 +4,7 @@
 
 <mapper namespace="com.ssafy.member.model.mapper.MemberMapper">
 
+	<!-- 
 	<resultMap type="memberDto" id="member">
 	</resultMap>
 	
@@ -23,5 +24,6 @@
 		from member
 		where email = #{email} and password = #{password}
 	</select>
-	
+	 -->
+	 
 </mapper>

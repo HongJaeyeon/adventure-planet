@@ -63,6 +63,7 @@ public class MemberController {
 		MemberDto result = memberService.loginMember(memberDto);
 		
 		System.out.println(result);
+	
 		
 		return result.getNickname();
 	}

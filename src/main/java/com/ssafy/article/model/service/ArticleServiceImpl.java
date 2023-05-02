@@ -6,9 +6,17 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.article.model.ArticleDto;
+import com.ssafy.article.model.mapper.ArticleMapper;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
+	private ArticleMapper articleMapper;
+	
+	public ArticleServiceImpl(ArticleMapper articleMapper) {
+		super();
+		this.articleMapper = articleMapper;
+	}
+	
 
 	@Override
 	public void write(ArticleDto articleDto) throws Exception {
@@ -38,7 +46,6 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public List<ArticleDto> listByAdmin() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return articleMapper.listByAdmin();
 	}
 }

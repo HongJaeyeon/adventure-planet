@@ -12,6 +12,7 @@
 		<result column="article_status" property="articleStatus"/>
 	</resultMap>
 	
+	
 	<select id="listByAdmin" resultMap="article">
 		select *
 		from article

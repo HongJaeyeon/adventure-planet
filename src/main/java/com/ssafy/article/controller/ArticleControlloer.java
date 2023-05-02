@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,19 @@ public class ArticleControlloer {
 		}
 	}
 
+	
+	
+	@GetMapping("/listbyadmin")
+	public ResponseEntity<?> listByAdmin() {
+		logger.debug("article lisyByAdmin Start");
+		try {
+			List<ArticleDto> list = articleService.listByAdmin();
+			return new ResponseEntity<List<ArticleDto>>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
 	
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
