@@ -2,6 +2,7 @@ package com.ssafy.user.model.service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -11,13 +12,16 @@ import com.ssafy.user.model.mapper.UserMapper;
 @Service
 public class UserServiceImpl implements UserService {
 	
-	private static UserMapper userMapper;
+	private UserMapper userMapper;
 	
-	
+	public UserServiceImpl(UserMapper userMapper) {
+		this.userMapper = userMapper;
+	}
 	
 	@Override
-	public int regist(UserDto user) throws SQLException {
-		return userMapper.regist(user);
+	public UserDto regist(Map<String, Object> map) throws SQLException {
+		userMapper.regist(map);
+		return userMapper.detail((String) map.get("userId"));
 	}
 	
 	@Override
@@ -32,8 +36,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void detail() {
-		userMapper.detail();
+	public void detail(String userId) {
+		userMapper.detail(userId);
 	}
 
 	@Override

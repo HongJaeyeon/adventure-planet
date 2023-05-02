@@ -2,6 +2,8 @@ package com.ssafy.user.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,16 +12,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.user.model.UserDto;
 import com.ssafy.user.model.service.UserService;
 import com.ssafy.util.Crypt;
 
-@Controller
+@RestController
+@RequestMapping("/user")
 public class UserController {
 	
-	private static final long serialVersionUID = 1L;
+//	private static final long serialVersionUID = 1L;
     
 	private UserService userService;
 	private Crypt crypt;
@@ -29,88 +38,32 @@ public class UserController {
 		this.userService = userService;
 		this.crypt = crypt;
 	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.setContentType("text/html");
-		response.setCharacterEncoding("utf-8");
-		
-		process(request, response);
-	}
-
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		request.setCharacterEncoding("utf-8");
-		doGet(request, response);
-	}
-
-	private void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		// TODO Auto-generated method stub
-		String action = request.getParameter("action");
-		System.out.println("action : " + action);
-		
-		String path = "";
-		switch (action) {
-		case "regist":
-			path = regist(request, response);
-			forward(request, response, path);
-			break;
-		case "emailcheck":
-			redirect(request, response, path);
-		case "login":
-			path = login(request, response);
-			forward(request, response, path);
-			break;
-		case "logout":
-			path = logout(request, response);
-			redirect(request, response, path);
-			break;
-		case "leave":
-			path = leave(request, response);
-			forward(request, response, path);
-			break;
-		default:
-			break;
+	
+	@PostMapping("/regist")
+	public ResponseEntity<?> regist(@RequestBody Map<String, String> param) throws IOException {
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("userId", param.get("member_id"));
+			map.put("userEmail", param.get("member_email"));
+			map.put("userPassword", param.get("member_password"));
+			map.put("userName", param.get("member_name"));
+			UserDto userDto = userService.regist(map);
+			
+//			UserDto userDto = new UserDto();
+//			userDto.setUserId(param.get("member_id"));
+//			userDto.setUserEmail(param.get("member_email"));
+//			userDto.setUserPassword(param.get("member_password"));
+//			userDto.setUserName(param.get("member_name"));
+			
+			return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
 		}
-	}
-
-	private void forward(HttpServletRequest request, HttpServletResponse response, String path) throws ServletException, IOException {
-		RequestDispatcher dispatcher = request.getRequestDispatcher(path);
-		dispatcher.forward(request, response);
-	}
-
-	private void redirect(HttpServletRequest request, HttpServletResponse response, String path) throws IOException {
-		response.sendRedirect(request.getContextPath() + path);
 	}
 	
-	private String regist(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		// TODO Auto-generated method stub
-		try {
-			UserDto UserDto = new UserDto();
-//			UserDto.setEmail(request.getParameter("regist-email"));
-//			UserDto.setNickname(request.getParameter("nickname"));
-//			UserDto.setPassword(crypt.encryptPw(request.getParameter("regist-password")));
-			
-			if(!request.getParameter("regist-password").equals(request.getParameter("regist-password-con"))) {
-				request.setAttribute("msg",(String)"비밀번호와 비밀번호 확인이 다릅니다.");
-				return "/index.jsp";
-			}
-			
-			userService.regist(UserDto);
-			
-			return "/index.jsp";
-		} catch (Exception e) {
-			request.setAttribute("msg",(String)"회원가입 실패");
-			e.printStackTrace();
-			return "/index.jsp";
-		}
+	private ResponseEntity<String> exceptionHandling(Exception e) {
+		e.printStackTrace();
+		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	private String login(HttpServletRequest request, HttpServletResponse response) throws IOException {

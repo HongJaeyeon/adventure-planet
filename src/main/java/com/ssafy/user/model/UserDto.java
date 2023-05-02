@@ -2,7 +2,7 @@ package com.ssafy.user.model;
 
 public class UserDto {
 
-	private int userId;
+	private String userId;
 	private String userEmail;
 	private String userPassword;
 	private String userName;
@@ -13,7 +13,7 @@ public class UserDto {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public UserDto(int userId, String userEmail, String userPassword, String userName, String userPosition,
+	public UserDto(String userId, String userEmail, String userPassword, String userName, String userPosition,
 			String userStatus) {
 		super();
 		this.userId = userId;
@@ -24,11 +24,11 @@ public class UserDto {
 		this.userStatus = userStatus;
 	}
 
-	public int getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
