@@ -1,10 +1,20 @@
 package com.ssafy.article.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "ArticleDto (게시글 정보)", description = "게시글의 정보를 담는 클래스")
 public class ArticleDto {
+	
+	@ApiModelProperty(value = "게시글 번호")
 	private int articleNo;
+	@ApiModelProperty(value = "작성자: 유저 아이디")
 	private String userId;
+	@ApiModelProperty(value = "게시글 제목")
 	private String articleTitle;
+	@ApiModelProperty(value = "게시글 내용")
 	private String articleContent;
+	@ApiModelProperty(value = "게시글 상태")
 	private int articleStatus;
 	
 	public int getArticleNo() {

@@ -14,8 +14,14 @@ import com.ssafy.attraction.model.AttractionDto;
 import com.ssafy.plan.model.PlanDto;
 import com.ssafy.plan.model.service.PlanService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("/plan")
+@Api(tags = {"여행 계획 API"})
 public class PlanController {
 	
 	private PlanService planService;
@@ -32,6 +38,8 @@ public class PlanController {
     }
 	
 	@PostMapping("/write")
+	@ApiOperation(value = "여행 계획 등록", notes = "여행 계획을 등록합니다.")
+	@ApiResponses({@ApiResponse(code = 200, message = "여행 계획 등록 OK"), @ApiResponse(code = 500, message = "서버 에러")})
 	public ResponseEntity<?> writePlan(@RequestBody PlanDto planDto) {
 		
 		try {

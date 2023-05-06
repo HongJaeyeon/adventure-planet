@@ -1,12 +1,22 @@
 package com.ssafy.plan.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "WaypointDto (관광지 경로 정보)", description = "관광지 경로의 정보를 담는 클래스")
 public class WaypointDto {
 
+	@ApiModelProperty(value = "관광지 경로 번호")
 	private int waypointNo;
+	@ApiModelProperty(value = "여행 계획 번호")
 	private int planNo;
+	@ApiModelProperty(value = "관광지 번호")
 	private int attractionContentId;
+	@ApiModelProperty(value = "관광지 경로 순서")
 	private int waypointOrder;
+	@ApiModelProperty(value = "관광지 경로 내용")
 	private String waypointContent;
+	@ApiModelProperty(value = "관광지 경로 상태")
 	private int waypointStatus;
 	
 	public WaypointDto() {	}

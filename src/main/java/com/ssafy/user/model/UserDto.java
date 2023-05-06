@@ -1,20 +1,30 @@
 package com.ssafy.user.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "UserDto (유저 정보)", description = "유저의 정보를 담는 클래스")
 public class UserDto {
 
+	@ApiModelProperty(value = "유저 아이디")
 	private String userId;
+	@ApiModelProperty(value = "유저 이메일")
 	private String userEmail;
+	@ApiModelProperty(value = "유저 비밀번호")
 	private String userPassword;
+	@ApiModelProperty(value = "유저 이름")
 	private String userName;
+	@ApiModelProperty(value = "유저 권한")
 	private String userPosition;
-	private String userStatus;
+	@ApiModelProperty(value = "유저 상태")
+	private int userStatus;
 	
 	public UserDto() {
 		// TODO Auto-generated constructor stub
 	}
 	
 	public UserDto(String userId, String userEmail, String userPassword, String userName, String userPosition,
-			String userStatus) {
+			int userStatus) {
 		super();
 		this.userId = userId;
 		this.userEmail = userEmail;
@@ -64,11 +74,11 @@ public class UserDto {
 		this.userPosition = userPosition;
 	}
 
-	public String getUserStatus() {
+	public int getUserStatus() {
 		return userStatus;
 	}
 
-	public void setUserStatus(String userStatus) {
+	public void setUserStatus(int userStatus) {
 		this.userStatus = userStatus;
 	}
 

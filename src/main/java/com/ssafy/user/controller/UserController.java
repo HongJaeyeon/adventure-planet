@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +28,14 @@ import com.ssafy.user.model.UserDto;
 import com.ssafy.user.model.service.UserService;
 import com.ssafy.util.Crypt;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("/user")
+@Api(tags = {"유저 API"})
 public class UserController {
 	
 //	private static final long serialVersionUID = 1L;
@@ -42,7 +49,14 @@ public class UserController {
 		this.crypt = crypt;
 	}
 	
+	private ResponseEntity<String> exceptionHandling(Exception e) {
+		e.printStackTrace();
+		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 	@PostMapping("/regist")
+	@ApiOperation(value = "유저 등록", notes = "유저를 등록합니다.")
+	@ApiResponses({@ApiResponse(code = 200, message = "유저 등록 OK"), @ApiResponse(code = 500, message = "서버 에러")})
 	public ResponseEntity<?> regist(@RequestBody UserDto userDto) {
 		try {
 			UserDto resultUserDto = userService.regist(userDto);
@@ -53,6 +67,8 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
+	@ApiOperation(value = "유저 로그인", notes = "유저가 로그인합니다.")
+	@ApiResponses({@ApiResponse(code = 200, message = "유저 로그인 OK"), @ApiResponse(code = 500, message = "서버 에러")})
 	public ResponseEntity<?> login(@RequestBody UserDto userDto) {
 		try {
 			UserDto resultUserDto = userService.login(userDto);
@@ -60,11 +76,6 @@ public class UserController {
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
-	}
-	
-	private ResponseEntity<String> exceptionHandling(Exception e) {
-		e.printStackTrace();
-		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	private String login(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -113,6 +124,8 @@ public class UserController {
 	}
 	
 	@GetMapping("/list")
+	@ApiOperation(value = "유저 리스트 반환", notes = "유저 리스트를 반환합니다.")
+	@ApiResponses({@ApiResponse(code = 200, message = "유저 리스트 반환 OK"), @ApiResponse(code = 500, message = "서버 에러")})
 	public ResponseEntity<?> list() {
 		try {
 			List<UserDto> resultUserList = userService.list();
@@ -131,6 +144,8 @@ public class UserController {
 	}
 	
 	@GetMapping("/detail/{userId}")
+	@ApiOperation(value = "유저 세부 정보 반환", notes = "유저 세부 정보 반환")
+	@ApiResponses({@ApiResponse(code = 200, message = "유저 세부 정보 반환 OK"), @ApiResponse(code = 500, message = "서버 에러")})
 	public ResponseEntity<?> detail(@PathVariable("userId") String userId) {
 		try {
 			UserDto resultUserDto = userService.detail(userId);
@@ -140,7 +155,9 @@ public class UserController {
 		}
 	}
 	
-	@PostMapping("/leave/{userId}")
+	@PutMapping("/leave/{userId}")
+	@ApiOperation(value = "유저 탈퇴", notes = "유저가 탈퇴합니다.")
+	@ApiResponses({@ApiResponse(code = 200, message = "유저 탈퇴 OK"), @ApiResponse(code = 500, message = "서버 에러")})
 	public ResponseEntity<?> leave(@PathVariable("userId") String userId) {
 		try {
 			UserDto resultUserDto = userService.leave(userId);
@@ -150,15 +167,16 @@ public class UserController {
 		}
 	}
 	
-	// 작성 미완료
-//	@PostMapping("/update/{userid}")
-//	public ResponseEntity<?> update(@PathVariable("userId") String userId) {
-//		try {
-//			UserDto resultUserDto = userService.update(userId);
-//			return new ResponseEntity<UserDto>(resultUserDto, HttpStatus.OK);
-//		} catch (Exception e) {
-//			return exceptionHandling(e);
-//		}
-//	}
+	@PutMapping("/update")
+	@ApiOperation(value = "유저 정보 수정", notes = "유저 정보를 수정합니다.")
+	@ApiResponses({@ApiResponse(code = 200, message = "유저 정보 수정 OK"), @ApiResponse(code = 500, message = "서버 에러")})
+	public ResponseEntity<?> update(@RequestBody UserDto userDto) {
+		try {
+			UserDto resultUserDto = userService.update(userDto);
+			return new ResponseEntity<UserDto>(resultUserDto, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
 	
 }

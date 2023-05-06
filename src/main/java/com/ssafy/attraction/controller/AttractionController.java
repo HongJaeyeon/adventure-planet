@@ -18,8 +18,14 @@ import com.ssafy.article.model.ArticleDto;
 import com.ssafy.attraction.model.AttractionDto;
 import com.ssafy.attraction.model.service.AttractionService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("/attraction")
+@Api(tags = {"여행지 API"})
 public class AttractionController {
 	private final Logger logger = LoggerFactory.getLogger(AttractionController.class);
 
@@ -37,6 +43,8 @@ public class AttractionController {
     }
 	
 	@PostMapping("/search")
+	@ApiOperation(value = "여행지 검색", notes = "여행지를 검색합니다.")
+	@ApiResponses({@ApiResponse(code = 200, message = "여행지 검색 OK"), @ApiResponse(code = 500, message = "서버 에러")})
 	public ResponseEntity<?> searchAttraction(@RequestBody Map<String, Object> map) {
 		
 		try {

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.member.model.mapper.MemberMapper">
+
+	<!-- 
+	<resultMap type="memberDto" id="member">
+	</resultMap>
+	
+	<select id="idCheck" parameterType="String" resultType="int">
+		select count(email)
+		from member
+		where email = #{email}
+	</select>
+
+	<insert id="joinMember" parameterType="memberDto">
+		insert into member (email, nickname, password)
+		values (#{email}, #{nickname}, #{password})
+	</insert>
+
+	<select id="loginMember" parameterType="memberDto" resultMap="member">
+		select email, nickname
+		from member
+		where email = #{email} and password = #{password}
+	</select>
+	 -->
+	 
+</mapper>

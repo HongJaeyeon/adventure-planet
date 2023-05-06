@@ -45,5 +45,11 @@ public class UserServiceImpl implements UserService {
 		userMapper.leave(userId);
 		return userMapper.detail(userId);
 	}
+
+	@Override
+	public UserDto update(UserDto userDto) {
+		userMapper.update(userDto);
+		return userMapper.detail(userDto.getUserId());
+	}
 	
 }

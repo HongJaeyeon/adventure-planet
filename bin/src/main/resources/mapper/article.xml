@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.article.model.mapper.ArticleMapper">
+
+	<resultMap type="articleDto" id="article">
+		<result column="article_no" property="articleNo"/>
+		<result column="user_id" property="userId"/>
+		<result column="article_title" property="articleTitle"/>
+		<result column="article_content" property="articleContent"/>
+		<result column="article_status" property="articleStatus"/>
+	</resultMap>
+	
+	<!-- parameterMap="article"을 쓰려면 parameterMap을 만들어야함 아닐 시 type -->
+	<!-- 공지사항 체크 시 프론트앤드에서 aritlceStatus를 2로 변경해야함 기본으로 1 -->
+	<insert id="write" parameterType="articleDto">
+		insert into article (user_id, article_title, article_content, article_status)
+		values (#{userId}, #{articleTitle}, #{articleContent}, #{articleStatus})
+	</insert>
+	
+	<update id="modify" parameterType="articleDto">
+		update article
+		set article_title = #{articleTitle}, article_content = #{articleContent}
+		where article_no = #{articleNo}
+	</update>
+	
+	<update id="delete" parameterType="int">
+		update article
+		set article_status = 0
+		where article_no = #{articleNo}
+	</update>
+	
+	<select id="detail" resultMap="article">
+		select *
+		from article
+		where article_no = #{articleNo}
+	</select>
+			
+	<select id="list" resultMap="article">
+		select *
+		from article
+	</select>
+	
+</mapper>

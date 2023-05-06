@@ -17,5 +17,6 @@ public interface UserMapper {
 	public List<UserDto> list();
 	public UserDto detail(String userId);
 	public void leave(String userId) throws SQLException;
+	public void update(UserDto userDto);
 
 }

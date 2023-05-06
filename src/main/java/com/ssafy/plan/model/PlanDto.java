@@ -2,12 +2,21 @@ package com.ssafy.plan.model;
 
 import java.util.List;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(value = "PlanDto (여행 계획 정보)", description = "여행 계획의 정보를 담는 클래스")
 public class PlanDto {
 	
+	@ApiModelProperty(value = "여행 계획 번호")
 	private int planNo;
+	@ApiModelProperty(value = "작성자: 유저 아이디")
 	private String userId;
+	@ApiModelProperty(value = "여행 계획 제목")
 	private String planTitle;
+	@ApiModelProperty(value = "여행 계획 상태")
 	private int planStatus;
+	@ApiModelProperty(value = "관광지 경로 리스트")
 	private List<WaypointDto> waypoints;
 	
 	public PlanDto() {	}

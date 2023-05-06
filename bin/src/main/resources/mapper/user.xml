@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.user.model.mapper.UserMapper">
+
+	<resultMap type="userDto" id="user">
+		<result column="user_id" property="userId"/>
+		<result column="user_email" property="userEmail"/>
+		<result column="user_password" property="userPassword"/>
+		<result column="user_name" property="userName"/>
+		<result column="user_position" property="userPosition"/>
+		<result column="user_status" property="userStatus"/>
+	</resultMap>
+	
+	<!-- User Regist -->
+	<insert id="regist" parameterType="userDto">
+		insert into user (user_id, user_email, user_password, user_name)
+		values (#{userId}, #{userEmail}, #{userPassword}, #{userName})
+	</insert>
+	
+	<!-- User Login -->
+	<select id="login" parameterType="userDto" resultMap="user">
+		select *
+		from user
+		where user_id = #{userId} and user_password = #{userPassword}
+	</select>
+	
+	<!-- User List -->
+	<select id="list" resultMap="user">
+		select *
+		from user
+	</select>
+	
+	<!-- User Detail -->
+	<select id="detail" parameterType="string" resultMap="user">
+		select *
+		from user
+		where user_id = #{userId}
+	</select>
+	
+	<!-- User Leave -->
+	<update id="leave" parameterType="string">
+		update user
+		set user_status = 0
+		where user_id = #{userId}
+	</update>
+	
+</mapper>

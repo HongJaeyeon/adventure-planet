@@ -14,5 +14,6 @@ public interface UserService {
 	public List<UserDto> list();
 	public UserDto detail(String userId);
 	public UserDto leave(String userId) throws SQLException;
+	public UserDto update(UserDto userDto);
 	
 }
