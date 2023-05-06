@@ -1,5 +1,5 @@
 # Enjoytrip_Springboot_서울_17_이우석_김영서_홍재연
-[상세 정보: readme.pdf](readme.pdf)
+상세 정보: [readme.pdf](readme.pdf)
 
 
 ## Swagger
