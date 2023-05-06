@@ -4,6 +4,7 @@
 http://localhost/swagger-ui/index.html
 
 ### 게시글 API
+![ArticleAPI.png](/description_img/Article.png)
 
 ### 여행지 API
 
