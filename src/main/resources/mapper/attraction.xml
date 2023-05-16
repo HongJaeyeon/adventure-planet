@@ -6,42 +6,54 @@
 	namespace="com.ssafy.attraction.model.mapper.AttractionMapper">
 
 	<resultMap type="attractionDto" id="attraction">
-		<result column="content_id" property="contentId"/>
-		<result column="content_type_id" property="contentTypeId"/>
-		<result column="title" property="title"/>
-		<result column="addr1" property="addr1"/>
-		<result column="addr2" property="addr2"/>
-		<result column="zipcode" property="zipcode"/>
-		<result column="tel" property="tel"/>
-		<result column="first_image" property="firstImage"/>
-		<result column="first_image2" property="firstImage2"/>
-		<result column="readcount" property="readcount"/>
-		<result column="sido_code" property="sidoCode"/>
-		<result column="gugun_code" property="gugunCode"/>
-		<result column="latitude" property="latitude"/>
-		<result column="longitude" property="longitude"/>
-		<result column="mlevel" property="mlevel"/>
-		<result column="recommendation" property="recommendation"/>
+		<result column="content_id" property="contentId" />
+		<result column="content_type_id" property="contentTypeId" />
+		<result column="title" property="title" />
+		<result column="addr1" property="addr1" />
+		<result column="addr2" property="addr2" />
+		<result column="zipcode" property="zipcode" />
+		<result column="tel" property="tel" />
+		<result column="first_image" property="firstImage" />
+		<result column="first_image2" property="firstImage2" />
+		<result column="readcount" property="readcount" />
+		<result column="sido_code" property="sidoCode" />
+		<result column="gugun_code" property="gugunCode" />
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
+		<result column="mlevel" property="mlevel" />
+		<result column="recommendation" property="recommendation" />
 	</resultMap>
 
-	<select id="searchAttraction" parameterType="map" resultMap="attraction">
+	<resultMap type="gugunDto" id="gugun">
+		<result column="gugun_code" property="gugunCode" />
+		<result column="gugun_name" property="gugunName" />
+	</resultMap>
+
+	<select id="searchAttraction" parameterType="map"
+		resultMap="attraction">
 		select *
 		from attraction_info
 		where 1=1
 		<if test="sidoCode != null">
-		and sido_code = #{sidoCode}
+			and sido_code = #{sidoCode}
 		</if>
 		<if test="gugunCode != null">
 			and gugun_code = #{gugunCode}
 		</if>
 		<if test="contentTypeId != null">
-		and content_type_id = #{contentTypeId}
+			and content_type_id = #{contentTypeId}
 		</if>
 		<if test="word != null">
 			and title like concat('%', #{word}, '%')
 		</if>
 		order by readcount desc
 		LIMIT 100
+	</select>
+
+	<select id="searchGugun" parameterType="int" resultMap="gugun">
+		select gugun_code, gugun_name
+		from gugun
+		where sido_code=#{sidoCode}
 	</select>
 
 </mapper>
