@@ -28,11 +28,15 @@
 		select *
 		from attraction_info
 		where 1=1
+		<if test="sidoCode != null">
 		and sido_code = #{sidoCode}
+		</if>
 		<if test="gugunCode != null">
 			and gugun_code = #{gugunCode}
 		</if>
+		<if test="contentTypeId != null">
 		and content_type_id = #{contentTypeId}
+		</if>
 		<if test="word != null">
 			and title like concat('%', #{word}, '%')
 		</if>

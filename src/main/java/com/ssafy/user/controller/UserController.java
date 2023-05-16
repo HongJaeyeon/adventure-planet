@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,7 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/user")
 @Api(tags = {"유저 API"})
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 	
 //	private static final long serialVersionUID = 1L;
@@ -72,7 +74,11 @@ public class UserController {
 	public ResponseEntity<?> login(@RequestBody UserDto userDto) {
 		try {
 			UserDto resultUserDto = userService.login(userDto);
-			return new ResponseEntity<UserDto>(resultUserDto, HttpStatus.OK);
+			if (resultUserDto == null) {
+				return new ResponseEntity<UserDto>(resultUserDto, HttpStatus.INTERNAL_SERVER_ERROR);
+			} else {
+				return new ResponseEntity<UserDto>(resultUserDto, HttpStatus.OK);
+			}
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
