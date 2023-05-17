@@ -15,5 +15,6 @@ public interface UserService {
 	public UserDto detail(String userId);
 	public UserDto leave(String userId) throws SQLException;
 	public UserDto update(UserDto userDto);
+	public void saveRefreshToken(String userId, String refreshToken);
 	
 }

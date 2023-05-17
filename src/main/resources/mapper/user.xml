@@ -53,4 +53,10 @@
 		where user_id = #{userId}
 	</update>
 	
+	<update id="saveRefreshToken" parameterType="map">
+		update ssafy_member
+		set user_token = #{userToken}
+		where user_id = #{userId}
+	</update>
+	
 </mapper>

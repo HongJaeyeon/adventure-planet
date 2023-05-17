@@ -18,5 +18,6 @@ public interface UserMapper {
 	public UserDto detail(String userId);
 	public void leave(String userId) throws SQLException;
 	public void update(UserDto userDto);
+	public void saveRefreshToken(Map<String, String> map);
 
 }

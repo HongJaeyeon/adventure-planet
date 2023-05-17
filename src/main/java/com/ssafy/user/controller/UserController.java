@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.jwt.model.service.JwtService;
+import com.ssafy.jwt.model.service.JwtServiceImpl;
 import com.ssafy.user.model.UserDto;
 import com.ssafy.user.model.service.UserService;
 import com.ssafy.util.Crypt;
@@ -41,14 +46,20 @@ import io.swagger.annotations.ApiResponses;
 public class UserController {
 	
 //	private static final long serialVersionUID = 1L;
+	
+	public static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final String SUCCESS = "success";
+	private static final String FAIL = "fail";
     
 	private UserService userService;
 	private Crypt crypt;
+	private JwtService jwtService;
 
-	public UserController(UserService userService, Crypt crypt) {
+	public UserController(UserService userService, Crypt crypt, JwtService jwtService) {
 		super();
 		this.userService = userService;
 		this.crypt = crypt;
+		this.jwtService = jwtService;
 	}
 	
 	private ResponseEntity<String> exceptionHandling(Exception e) {
@@ -72,16 +83,30 @@ public class UserController {
 	@ApiOperation(value = "유저 로그인", notes = "유저가 로그인합니다.")
 	@ApiResponses({@ApiResponse(code = 200, message = "유저 로그인 OK"), @ApiResponse(code = 500, message = "서버 에러")})
 	public ResponseEntity<?> login(@RequestBody UserDto userDto) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
 		try {
-			UserDto resultUserDto = userService.login(userDto);
-			if (resultUserDto == null) {
-				return new ResponseEntity<UserDto>(resultUserDto, HttpStatus.INTERNAL_SERVER_ERROR);
+			UserDto loginUser = userService.login(userDto);
+			if (loginUser != null) {
+				String accessToken = jwtService.createAccessToken("userid", loginUser.getUserId());// key, data
+				String refreshToken = jwtService.createRefreshToken("userid", loginUser.getUserId());// key, data
+				userService.saveRefreshToken(userDto.getUserId(), refreshToken);
+				logger.debug("로그인 accessToken 정보 : {}", accessToken);
+				logger.debug("로그인 refreshToken 정보 : {}", refreshToken);
+				resultMap.put("access-token", accessToken);
+				resultMap.put("refresh-token", refreshToken);
+				resultMap.put("message", SUCCESS);
+				status = HttpStatus.ACCEPTED;
 			} else {
-				return new ResponseEntity<UserDto>(resultUserDto, HttpStatus.OK);
+				resultMap.put("message", FAIL);
+				status = HttpStatus.ACCEPTED;
 			}
 		} catch (Exception e) {
-			return exceptionHandling(e);
+			logger.error("로그인 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
 	private String login(HttpServletRequest request, HttpServletResponse response) throws IOException {
