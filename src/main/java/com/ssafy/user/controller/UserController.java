@@ -118,6 +118,7 @@ public class UserController {
 //		logger.debug("userid : {} ", userid);
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		System.out.println(request.getHeader("access-token"));
 		if (jwtService.checkToken(request.getHeader("access-token"))) {
 			logger.info("사용 가능한 토큰!!!");
 			try {
@@ -128,7 +129,8 @@ public class UserController {
 				status = HttpStatus.ACCEPTED;
 			} catch (Exception e) {
 				logger.error("정보조회 실패 : {}", e);
-				resultMap.put("message", e.getMessage());
+				resultMap.put("messag"
+						+ "e", e.getMessage());
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
 			}
 		} else {
@@ -152,12 +154,46 @@ public class UserController {
 		}
 	}
 	
-	private String logout(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession();
-//		session.removeAttribute("userinfo");
-		// 모든 세션 정보를 제거하여 로그아웃 기능 구현
-		session.invalidate();
-		return "";
+	@ApiOperation(value = "로그아웃", notes = "회원 정보를 담은 Token을 제거한다.", response = Map.class)
+	@GetMapping("/logout/{userId}")
+	public ResponseEntity<?> removeToken(@PathVariable("userId") String userId) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			userService.deleRefreshToken(userId);
+			resultMap.put("message", SUCCESS);
+			status = HttpStatus.ACCEPTED;
+		} catch (Exception e) {
+			logger.error("로그아웃 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+
+	}
+	
+	@ApiOperation(value = "Access Token 재발급", notes = "만료된 access token을 재발급받는다.", response = Map.class)
+	@PostMapping("/refresh")
+	public ResponseEntity<?> refreshToken(@RequestBody UserDto userDto, HttpServletRequest request)
+			throws Exception {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		String token = request.getHeader("refresh-token");
+		logger.debug("token : {}, memberDto : {}", token, userDto);
+		if (jwtService.checkToken(token)) {
+			if (token.equals(userService.getRefreshToken(userDto.getUserId()))) {
+				String accessToken = jwtService.createAccessToken("userid", userDto.getUserId());
+				logger.debug("token : {}", accessToken);
+				logger.debug("정상적으로 액세스토큰 재발급!!!");
+				resultMap.put("access-token", accessToken);
+				resultMap.put("message", SUCCESS);
+				status = HttpStatus.ACCEPTED;
+			}
+		} else {
+			logger.debug("리프레쉬토큰도 사용불!!!!!!!");
+			status = HttpStatus.UNAUTHORIZED;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
 	@GetMapping("/detail/{userId}")

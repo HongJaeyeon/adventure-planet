@@ -105,6 +105,7 @@ public class JwtServiceImpl implements JwtService {
 		try {
 			// charset 설정 안하면 사용자 플랫폼의 기본 인코딩 설정으로 인코딩 됨.
 			key = getSalt().getBytes("UTF-8");
+			System.out.println(getSalt());
 		} catch (UnsupportedEncodingException e) {
 			if (logger.isInfoEnabled()) {
 				e.printStackTrace();
@@ -123,7 +124,9 @@ public class JwtServiceImpl implements JwtService {
 			//			Json Web Signature? 서버에서 인증을 근거로 인증정보를 서버의 private key로 서명 한것을 토큰화 한것
 			//			setSigningKey : JWS 서명 검증을 위한  secret key 세팅
 			//			parseClaimsJws : 파싱하여 원본 jws 만들기
+			System.out.println("claim 전");
 			Jws<Claims> claims = Jwts.parser().setSigningKey(this.generateKey()).parseClaimsJws(jwt);
+			System.out.println("claim 후");
 			//			Claims 는 Map의 구현체 형태
 			logger.debug("claims: {}", claims);
 			return true;
