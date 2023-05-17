@@ -36,6 +36,7 @@ import com.ssafy.util.Crypt;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -109,50 +110,35 @@ public class UserController {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 	
-	private String login(HttpServletRequest request, HttpServletResponse response) throws IOException {
-//		// 1. 아이디, 비밀번호 가져오기
-//		String email = request.getParameter("email");
-//		String password = request.getParameter("password");
-//		// 2. 일을 시키기
-//		try {
-//			UserDto UserDto = userService.login(email);
-//			if(UserDto != null && crypt.checkPw(password, UserDto.getPassword())) { // 로그인 성공
-////						session 설정
-//				HttpSession session = request.getSession();
-//				session.setAttribute("userinfo", UserDto);
-//				
-////						cookie 설정
-////				String idsave = request.getParameter("saveid"); // 아이디 저장 체크 여부 가져오기
-////				if("ok".equals(idsave)) { // 아이디 저장을 체크 했다면.
-////					Cookie cookie = new Cookie("ssafy_id", email);
-////					cookie.setPath(request.getContextPath());
-////					cookie.setMaxAge(60 * 60 * 24 * 365 * 40); //40년간 저장.
-////					response.addCookie(cookie);
-////				} else { //아이디 저장을 해제 했다면.
-////					Cookie cookies[] = request.getCookies();
-////					if(cookies != null) {
-////						for(Cookie cookie : cookies) {
-////							if("ssafy_id".equals(cookie.getName())) {
-////								cookie.setMaxAge(0);
-////								response.addCookie(cookie);
-////								break;
-////							}
-////						}
-////					}
-////				}
-//				
-//				return "/index.jsp";
-//			} else {
-//				request.setAttribute("msg", (String)"아이디 또는 비밀번호 확인 후 다시 로그인하세요.");
-//				return "/index.jsp";
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return "";
-//		}
-//		
-		return null;
+	@ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.", response = Map.class)
+	@GetMapping("/info/{userid}")
+	public ResponseEntity<Map<String, Object>> getInfo(
+			@PathVariable("userid") @ApiParam(value = "인증할 회원의 아이디.", required = true) String userid,
+			HttpServletRequest request) {
+//		logger.debug("userid : {} ", userid);
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		if (jwtService.checkToken(request.getHeader("access-token"))) {
+			logger.info("사용 가능한 토큰!!!");
+			try {
+//				로그인 사용자 정보.
+				UserDto userDto = userService.userInfo(userid);
+				resultMap.put("userInfo", userDto);
+				resultMap.put("message", SUCCESS);
+				status = HttpStatus.ACCEPTED;
+			} catch (Exception e) {
+				logger.error("정보조회 실패 : {}", e);
+				resultMap.put("message", e.getMessage());
+				status = HttpStatus.INTERNAL_SERVER_ERROR;
+			}
+		} else {
+			logger.error("사용 불가능 토큰!!!");
+			resultMap.put("message", FAIL);
+			status = HttpStatus.UNAUTHORIZED;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+
 	
 	@GetMapping("/list")
 	@ApiOperation(value = "유저 리스트 반환", notes = "유저 리스트를 반환합니다.")

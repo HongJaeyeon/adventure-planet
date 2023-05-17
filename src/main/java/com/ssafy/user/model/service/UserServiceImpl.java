@@ -52,6 +52,11 @@ public class UserServiceImpl implements UserService {
 		userMapper.update(userDto);
 		return userMapper.detail(userDto.getUserId());
 	}
+	
+	@Override
+	public UserDto userInfo(String userId) throws Exception {
+		return userMapper.userInfo(userId);
+	}
 
 	@Override
 	public void saveRefreshToken(String userId, String refreshToken) {
@@ -59,6 +64,19 @@ public class UserServiceImpl implements UserService {
 		map.put("userId", userId);
 		map.put("userToken", refreshToken);
 		userMapper.saveRefreshToken(map);
+	}
+
+	@Override
+	public Object getRefreshToken(String userId) throws Exception {
+		return userMapper.getRefreshToken(userId);
+	}
+
+	@Override
+	public void deleRefreshToken(String userId) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userid", userId);
+		map.put("token", null);
+		userMapper.deleteRefreshToken(map);
 	}
 	
 }

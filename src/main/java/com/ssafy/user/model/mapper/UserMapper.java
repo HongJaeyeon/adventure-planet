@@ -19,5 +19,8 @@ public interface UserMapper {
 	public void leave(String userId) throws SQLException;
 	public void update(UserDto userDto);
 	public void saveRefreshToken(Map<String, String> map);
+	public UserDto userInfo(String userId);
+	public Object getRefreshToken(String userId);
+	public void deleteRefreshToken(Map<String, String> map);
 
 }
