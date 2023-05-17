@@ -54,7 +54,7 @@
 	</update>
 	
 	<update id="saveRefreshToken" parameterType="map">
-		update ssafy_member
+		update user
 		set user_token = #{userToken}
 		where user_id = #{userId}
 	</update>
