@@ -10,6 +10,9 @@
 		<result column="article_title" property="articleTitle"/>
 		<result column="article_content" property="articleContent"/>
 		<result column="article_status" property="articleStatus"/>
+		<result column="article_hit" property="articleHit"/>
+		<result column="article_write_time" property="articleWriteTime"/>
+		<result column="article_write_time_ago" property="articleWriteTimeAgo"/>
 	</resultMap>
 	
 	<!-- parameterMap="article"을 쓰려면 parameterMap을 만들어야함 아닐 시 type -->
@@ -38,9 +41,23 @@
 	</select>
 			
 	<select id="list" resultMap="article">
-		select *
-		from article
-		where article_status = 1
+		select article_no, user_id, article_title, article_content, article_status, article_hit, article_write_time,
+					case when timestampdiff(YEAR, article_write_time, current_timestamp)
+ 						then concat(timestampdiff(YEAR, article_write_time, current_timestamp), "년전")
+					when timestampdiff(MONTH, article_write_time, current_timestamp)
+ 						then concat(timestampdiff(MONTH, article_write_time, current_timestamp), "달전")
+ 					when timestampdiff(DAY, article_write_time, current_timestamp)
+ 						then concat(timestampdiff(DAY, article_write_time, current_timestamp), "일전")
+					when timestampdiff(HOUR, article_write_time, current_timestamp)
+ 						then concat(timestampdiff(HOUR, article_write_time, current_timestamp), "시간전")
+					when timestampdiff(MINUTE, article_write_time, current_timestamp)
+ 						then concat(timestampdiff(MINUTE, article_write_time, current_timestamp), "분전")
+					when timestampdiff(SECOND, article_write_time, current_timestamp)
+ 						then concat(timestampdiff(SECOND, article_write_time, current_timestamp), "초전")
+					end article_write_time_ago
+			from article
+			where article_status = 1
+			order by article_write_time desc
 	</select>
 	
 </mapper>
