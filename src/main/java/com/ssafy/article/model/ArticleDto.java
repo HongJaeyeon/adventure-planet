@@ -16,7 +16,28 @@ public class ArticleDto {
 	private String articleContent;
 	@ApiModelProperty(value = "게시글 상태")
 	private int articleStatus;
+	@ApiModelProperty(value = "게시글 조회수")
+	private int articleHit;
+	@ApiModelProperty(value = "게시글 작성 시간")
+	private String articleWriteTime;
+	@ApiModelProperty(value = "게시글 작성 시간과 현재 시간의 차")
+	private String articleWriteTimeAgo;
 	
+	public ArticleDto() {}
+	
+	public ArticleDto(int articleNo, String userId, String articleTitle, String articleContent, int articleStatus,
+			int articleHit, String articleWriteTime, String articleWriteTimeAgo) {
+		super();
+		this.articleNo = articleNo;
+		this.userId = userId;
+		this.articleTitle = articleTitle;
+		this.articleContent = articleContent;
+		this.articleStatus = articleStatus;
+		this.articleHit = articleHit;
+		this.articleWriteTime = articleWriteTime;
+		this.articleWriteTimeAgo = articleWriteTimeAgo;
+	}
+
 	public int getArticleNo() {
 		return articleNo;
 	}
@@ -48,10 +69,36 @@ public class ArticleDto {
 		this.articleStatus = articleStatus;
 	}
 	
+	public int getArticleHit() {
+		return articleHit;
+	}
+
+	public void setArticleHit(int articleHit) {
+		this.articleHit = articleHit;
+	}
+
+	public String getArticleWriteTime() {
+		return articleWriteTime;
+	}
+
+	public void setArticleWriteTime(String articleWriteTime) {
+		this.articleWriteTime = articleWriteTime;
+	}
+
+	public String getArticleWriteTimeAgo() {
+		return articleWriteTimeAgo;
+	}
+
+	public void setArticleWriteTimeAgo(String articleWriteTimeAgo) {
+		this.articleWriteTimeAgo = articleWriteTimeAgo;
+	}
+
 	@Override
 	public String toString() {
 		return "ArticleDto [articleNo=" + articleNo + ", userId=" + userId + ", articleTitle=" + articleTitle
-				+ ", articleContent=" + articleContent + ", articleStatus=" + articleStatus + "]";
+				+ ", articleContent=" + articleContent + ", articleStatus=" + articleStatus + ", articleHit="
+				+ articleHit + ", articleWriteTime=" + articleWriteTime + ", articleWriteTimeAgo=" + articleWriteTimeAgo
+				+ "]";
 	}
 	
 }
