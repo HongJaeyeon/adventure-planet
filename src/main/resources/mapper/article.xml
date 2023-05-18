@@ -40,24 +40,27 @@
 		where article_no = #{articleNo}
 	</select>
 			
-	<select id="list" resultMap="article">
+	<select id="list" parameterType="map" resultMap="article">
 		select article_no, user_id, article_title, article_content, article_status, article_hit, article_write_time,
-					case when timestampdiff(YEAR, article_write_time, current_timestamp)
- 						then concat(timestampdiff(YEAR, article_write_time, current_timestamp), "년전")
-					when timestampdiff(MONTH, article_write_time, current_timestamp)
- 						then concat(timestampdiff(MONTH, article_write_time, current_timestamp), "달전")
- 					when timestampdiff(DAY, article_write_time, current_timestamp)
- 						then concat(timestampdiff(DAY, article_write_time, current_timestamp), "일전")
-					when timestampdiff(HOUR, article_write_time, current_timestamp)
- 						then concat(timestampdiff(HOUR, article_write_time, current_timestamp), "시간전")
-					when timestampdiff(MINUTE, article_write_time, current_timestamp)
- 						then concat(timestampdiff(MINUTE, article_write_time, current_timestamp), "분전")
-					when timestampdiff(SECOND, article_write_time, current_timestamp)
- 						then concat(timestampdiff(SECOND, article_write_time, current_timestamp), "초전")
-					end article_write_time_ago
-			from article
-			where article_status = 1
-			order by article_write_time desc
+			case when timestampdiff(YEAR, article_write_time, current_timestamp)
+ 				then concat(timestampdiff(YEAR, article_write_time, current_timestamp), "년전")
+			when timestampdiff(MONTH, article_write_time, current_timestamp)
+ 				then concat(timestampdiff(MONTH, article_write_time, current_timestamp), "달전")
+ 			when timestampdiff(DAY, article_write_time, current_timestamp)
+ 				then concat(timestampdiff(DAY, article_write_time, current_timestamp), "일전")
+			when timestampdiff(HOUR, article_write_time, current_timestamp)
+ 				then concat(timestampdiff(HOUR, article_write_time, current_timestamp), "시간전")
+			when timestampdiff(MINUTE, article_write_time, current_timestamp)
+ 				then concat(timestampdiff(MINUTE, article_write_time, current_timestamp), "분전")
+			when timestampdiff(SECOND, article_write_time, current_timestamp)
+ 				then concat(timestampdiff(SECOND, article_write_time, current_timestamp), "초전")
+			end article_write_time_ago
+		from article
+		where article_status = #{articleStatus}
+		<if test="articleStatus == 1 and userPosition.equals('admin')">
+			or article_status = 0
+		</if>
+		order by article_write_time desc
 	</select>
 	
 	<update id="hitCount" parameterType="int">

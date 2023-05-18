@@ -1,6 +1,8 @@
 package com.ssafy.article.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.article.model.ArticleDto;
@@ -45,8 +48,7 @@ public class ArticleController {
 		logger.debug("articleDto info : {}", articleDto);
 		try {
 			articleService.write(articleDto);
-			List<ArticleDto> list = articleService.list();
-			return new ResponseEntity<List<ArticleDto>>(list, HttpStatus.OK);
+			return new ResponseEntity<List<ArticleDto>>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -59,8 +61,7 @@ public class ArticleController {
 		logger.debug("articleDto info : {}", articleDto);
 		try {
 			articleService.modify(articleDto);
-			List<ArticleDto> list = articleService.list();
-			return new ResponseEntity<List<ArticleDto>>(list, HttpStatus.OK);
+			return new ResponseEntity<List<ArticleDto>>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -87,8 +88,7 @@ public class ArticleController {
 		logger.debug("articleNo info : {}", articleNo);
 		try {
 			articleService.delete(articleNo);
-			List<ArticleDto> list = articleService.list();
-			return new ResponseEntity<List<ArticleDto>>(list, HttpStatus.OK);
+			return new ResponseEntity<List<ArticleDto>>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -109,12 +109,15 @@ public class ArticleController {
 	}
 	
 	@GetMapping("/list")
-	@ApiOperation(value = "게시글 목록", notes = "게시글의 목륵을 가져옵니다.")
+	@ApiOperation(value = "게시글 목록", notes = "게시글의 목록을 가져옵니다.")
 	@ApiResponses({@ApiResponse(code = 200, message = "게시글 목록 OK"), @ApiResponse(code = 500, message = "서버 에러")})
-	public ResponseEntity<?> listByAdmin() {
+	public ResponseEntity<?> list(@RequestParam int articleStatus, @RequestParam String userPosition) {
 		logger.debug("article list Start");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("articleStatus", articleStatus);
+		map.put("userPosition", userPosition);
 		try {
-			List<ArticleDto> list = articleService.list();
+			List<ArticleDto> list = articleService.list(map);
 			return new ResponseEntity<List<ArticleDto>>(list, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);

@@ -42,7 +42,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
 	@Override
-	public List<ArticleDto> list() throws Exception {
-		return articleMapper.list();
+	public List<ArticleDto> list(Map<String, Object> map) throws Exception {
+		return articleMapper.list(map);
 	}
 }
