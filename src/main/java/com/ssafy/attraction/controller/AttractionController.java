@@ -1,5 +1,6 @@
 package com.ssafy.attraction.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.attraction.model.AttractionDto;
@@ -45,11 +47,16 @@ public class AttractionController {
         return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 	
-	@PostMapping("/search")
+	@GetMapping("/search")
 	@ApiOperation(value = "여행지 검색", notes = "여행지를 검색합니다.")
 	@ApiResponses({@ApiResponse(code = 200, message = "여행지 검색 OK"), @ApiResponse(code = 500, message = "서버 에러")})
-	public ResponseEntity<?> searchAttraction(@RequestBody Map<String, Object> map) {
-		
+	public ResponseEntity<?> searchAttraction(@RequestParam(required = false, defaultValue = "-1") int sidoCode, @RequestParam(required = false, defaultValue = "-1") int gugunCode, @RequestParam(required = false, defaultValue = "-1") int contentTypeId, @RequestParam(required = false) String word) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println(gugunCode);
+		map.put("sidoCode", sidoCode);
+		map.put("gugunCode", gugunCode);
+		map.put("contentTypeId", contentTypeId);
+		map.put("word", word);
 		try {
 			logger.debug("Map info : {}", map);
 			List<AttractionDto> list = attractionService.searchAttraction(map);

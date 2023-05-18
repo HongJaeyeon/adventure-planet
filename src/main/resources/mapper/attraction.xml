@@ -37,13 +37,13 @@
 		select *
 		from attraction_info
 		where 1=1
-		<if test="sidoCode != null">
+		<if test="sidoCode != -1">
 			and sido_code = #{sidoCode}
 		</if>
-		<if test="gugunCode != null">
+		<if test="gugunCode != -1">
 			and gugun_code = #{gugunCode}
 		</if>
-		<if test="contentTypeId != null">
+		<if test="contentTypeId != -1">
 			and content_type_id = #{contentTypeId}
 		</if>
 		<if test="word != null">
