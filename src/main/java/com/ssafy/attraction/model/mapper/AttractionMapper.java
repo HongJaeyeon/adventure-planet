@@ -15,4 +15,6 @@ public interface AttractionMapper {
 
 	List<GugunDto> searchGugun(int sidoCode);
 
+	AttractionDto detailAttraction(int contentId);
+
 }

@@ -12,4 +12,6 @@ public interface AttractionService {
 
 	List<GugunDto> searchGugun(int sidoCode);
 
+	AttractionDto detailAttraction(int contentId);
+
 }

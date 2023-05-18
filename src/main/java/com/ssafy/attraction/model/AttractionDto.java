@@ -17,12 +17,17 @@ public class AttractionDto {
 	private double longitude;
 	private String mlevel;
 	private int recommendation;
+	private String homepage;
+	private String overview;
+	private String telname;
+	
 	
 	public AttractionDto() {	}
 
 	public AttractionDto(int contentId, int contentTypeId, String title, String addr1, String addr2, String zipcode,
 			String tel, String firstImage, String firstImage2, int readcount, int sidoCode, int gugunCode,
-			double latitude, double longitude, String mlevel, int recommendation) {
+			double latitude, double longitude, String mlevel, int recommendation, String homepage, String overview,
+			String telname) {
 		super();
 		this.contentId = contentId;
 		this.contentTypeId = contentTypeId;
@@ -40,6 +45,9 @@ public class AttractionDto {
 		this.longitude = longitude;
 		this.mlevel = mlevel;
 		this.recommendation = recommendation;
+		this.homepage = homepage;
+		this.overview = overview;
+		this.telname = telname;
 	}
 
 	public int getContentId() {
@@ -170,14 +178,38 @@ public class AttractionDto {
 		this.recommendation = recommendation;
 	}
 
+	public String getHomepage() {
+		return homepage;
+	}
+
+	public void setHomepage(String homepage) {
+		this.homepage = homepage;
+	}
+
+	public String getOverview() {
+		return overview;
+	}
+
+	public void setOverview(String overview) {
+		this.overview = overview;
+	}
+
+	public String getTelname() {
+		return telname;
+	}
+
+	public void setTelname(String telname) {
+		this.telname = telname;
+	}
+
 	@Override
 	public String toString() {
 		return "AttractionDto [contentId=" + contentId + ", contentTypeId=" + contentTypeId + ", title=" + title
 				+ ", addr1=" + addr1 + ", addr2=" + addr2 + ", zipcode=" + zipcode + ", tel=" + tel + ", firstImage="
 				+ firstImage + ", firstImage2=" + firstImage2 + ", readcount=" + readcount + ", sidoCode=" + sidoCode
 				+ ", gugunCode=" + gugunCode + ", latitude=" + latitude + ", longitude=" + longitude + ", mlevel="
-				+ mlevel + ", recommendation=" + recommendation + "]";
-	}
-	
+				+ mlevel + ", recommendation=" + recommendation + ", homepage=" + homepage + ", overview=" + overview
+				+ ", telname=" + telname + "]";
+	}	
 	
 }

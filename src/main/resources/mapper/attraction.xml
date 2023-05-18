@@ -22,6 +22,9 @@
 		<result column="longitude" property="longitude" />
 		<result column="mlevel" property="mlevel" />
 		<result column="recommendation" property="recommendation" />
+		<result column="homepage" property="homepage" />
+		<result column="overview" property="overview" />
+		<result column="telname" property="telname" />
 	</resultMap>
 
 	<resultMap type="gugunDto" id="gugun">
@@ -48,6 +51,14 @@
 		</if>
 		order by readcount desc
 		LIMIT 100
+	</select>
+	
+	<select id="detailAttraction" parameterType="int" resultMap="attraction">
+		SELECT info.content_id as content_id, content_type_id, title, addr1, addr2, zipcode, tel, first_image, first_image2, readcount, sido_code, gugun_code, latitude, longitude, mlevel, recommendation, homepage, overview, telname
+		FROM attraction_info info
+		join attraction_description des
+		on info.content_id = des.content_id
+		where info.content_id = #{contentId};
 	</select>
 
 	<select id="searchGugun" parameterType="int" resultMap="gugun">

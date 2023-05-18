@@ -60,6 +60,21 @@ public class AttractionController {
 		}
 	}
 	
+	@GetMapping("/detail/{contentId}")
+	@ApiOperation(value = "여행지 세부 정보", notes = "여행지 세부 정보를 반환합니다.")
+	@ApiResponses({@ApiResponse(code = 200, message = "여행지 세부 정보 OK"), @ApiResponse(code = 500, message = "서버 에러")})
+	public ResponseEntity<?> detailAttraction(@PathVariable int contentId) {
+		
+		try {
+			logger.debug("contentId : {}", contentId);
+			AttractionDto attractionDto = attractionService.detailAttraction(contentId);
+			
+			return new ResponseEntity<AttractionDto>(attractionDto, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
 	@GetMapping("/getgugun/{sidoCode}")
 	@ApiOperation(value = "구군코드 검색", notes = "구군코드를 검색합니다.")
 	@ApiResponses({@ApiResponse(code = 200, message = "여행지 검색 OK"), @ApiResponse(code = 500, message = "서버 에러")})
