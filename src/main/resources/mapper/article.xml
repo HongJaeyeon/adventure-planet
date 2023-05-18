@@ -60,4 +60,10 @@
 			order by article_write_time desc
 	</select>
 	
+	<update id="hitCount" parameterType="int">
+		UPDATE article
+		SET article_hit = article_hit + 1
+		WHERE article_no = #{articleNo}
+	</update>
+	
 </mapper>

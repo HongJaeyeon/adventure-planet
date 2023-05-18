@@ -36,6 +36,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public ArticleDto detail(int articleNo) throws Exception {
+		articleMapper.hitCount(articleNo);
 		return articleMapper.detail(articleNo);
 	}
 
