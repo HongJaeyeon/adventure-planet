@@ -111,7 +111,7 @@ public class ArticleController {
 	@GetMapping("/list")
 	@ApiOperation(value = "게시글 목록", notes = "게시글의 목록을 가져옵니다.")
 	@ApiResponses({@ApiResponse(code = 200, message = "게시글 목록 OK"), @ApiResponse(code = 500, message = "서버 에러")})
-	public ResponseEntity<?> list(@RequestParam int articleStatus, @RequestParam String userPosition) {
+	public ResponseEntity<?> list(@RequestParam int articleStatus, @RequestParam(required = false, defaultValue = "user") String userPosition) {
 		logger.debug("article list Start");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("articleStatus", articleStatus);
