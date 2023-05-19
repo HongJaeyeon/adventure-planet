@@ -40,7 +40,7 @@
 		where article_no = #{articleNo}
 	</select>
 			
-	<select id="list" parameterType="map" resultMap="article">
+	<select id="list" parameterType="boardParameterDto" resultMap="article">
 		select article_no, user_id, article_title, article_content, article_status, article_hit, article_write_time,
 			case when timestampdiff(YEAR, article_write_time, current_timestamp)
  				then concat(timestampdiff(YEAR, article_write_time, current_timestamp), "년전")
@@ -64,6 +64,7 @@
 			or article_status = 0
 		</if>
 		order by article_write_time desc
+		limit #{start}, #{spp}
 	</select>
 	
 	<update id="hitCount" parameterType="int">
@@ -71,5 +72,14 @@
 		SET article_hit = article_hit + 1
 		WHERE article_no = #{articleNo}
 	</update>
+	
+	<select id="getTotalArticleCount" parameterType="string" resultType="int">
+		select count(*)
+		from article
+		where article_status = 1
+		<if test="userPosition.equals('admin')">
+			or article_status = 0
+		</if>
+	</select>
 	
 </mapper>

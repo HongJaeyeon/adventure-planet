@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.article.model.ArticleDto;
+import com.ssafy.article.model.BoardParameterDto;
 import com.ssafy.article.model.service.ArticleService;
+import com.ssafy.util.PageNavigation;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -111,14 +113,18 @@ public class ArticleController {
 	@GetMapping("/list")
 	@ApiOperation(value = "게시글 목록", notes = "게시글의 목록을 가져옵니다.")
 	@ApiResponses({@ApiResponse(code = 200, message = "게시글 목록 OK"), @ApiResponse(code = 500, message = "서버 에러")})
-	public ResponseEntity<?> list(@RequestParam int articleStatus, @RequestParam(required = false, defaultValue = "user") String userPosition) {
+	public ResponseEntity<?> list(BoardParameterDto boardParameterDto) {
 		logger.debug("article list Start");
+		System.out.println(boardParameterDto);
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("articleStatus", articleStatus);
-		map.put("userPosition", userPosition);
 		try {
-			List<ArticleDto> list = articleService.list(map);
-			return new ResponseEntity<List<ArticleDto>>(list, HttpStatus.OK);
+			if (boardParameterDto.getUserPosition() == null) boardParameterDto.setUserPosition("user");
+			System.out.println(boardParameterDto);
+			List<ArticleDto> list = articleService.list(boardParameterDto);
+			PageNavigation pageNavigation = articleService.makePageNavigation(boardParameterDto.getPg(), boardParameterDto.getUserPosition());
+			map.put("list", list);
+			map.put("navigation", pageNavigation);
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
