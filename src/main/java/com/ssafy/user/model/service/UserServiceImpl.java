@@ -74,8 +74,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleRefreshToken(String userId) throws Exception {
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("userid", userId);
-		map.put("token", null);
+		map.put("userId", userId);
+		map.put("userToken", null);
 		userMapper.deleteRefreshToken(map);
 	}
 	
