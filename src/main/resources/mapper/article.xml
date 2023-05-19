@@ -57,6 +57,9 @@
 			end article_write_time_ago
 		from article
 		where article_status = #{articleStatus}
+		<if test="articleStatus == 0 and userPosition.equals('user')">
+			and 1 = 0
+		</if>
 		<if test="articleStatus == 1 and userPosition.equals('admin')">
 			or article_status = 0
 		</if>
