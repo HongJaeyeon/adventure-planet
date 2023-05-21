@@ -1,5 +1,6 @@
 package com.ssafy.article.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.article.model.ArticleDto;
 import com.ssafy.article.model.BoardParameterDto;
@@ -40,6 +42,11 @@ public class ArticleController {
 	public ArticleController(ArticleService articleService) {
 		super();
 		this.articleService = articleService;
+	}
+	
+	@PutMapping("/image")
+	public ResponseEntity<?> updateImage(@RequestParam("file") MultipartFile multipartFile) throws IOException  {
+		return articleService.updateImage(multipartFile);
 	}
 	
 	@PostMapping("/write")

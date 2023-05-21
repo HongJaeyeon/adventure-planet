@@ -1,11 +1,19 @@
 package com.ssafy.article.model.service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.article.model.ArticleDto;
 import com.ssafy.article.model.BoardParameterDto;
 import com.ssafy.article.model.mapper.ArticleMapper;
@@ -15,11 +23,26 @@ import com.ssafy.util.PageNavigation;
 public class ArticleServiceImpl implements ArticleService {
 	private ArticleMapper articleMapper;
 	
+	private final AmazonS3Client amazonS3Client;
+	
+	@Value("${cloud.aws.s3.bucket}")
+	private String bucket;
+	
 	public ArticleServiceImpl(ArticleMapper articleMapper) {
 		super();
+		this.amazonS3Client = new AmazonS3Client();
 		this.articleMapper = articleMapper;
 	}
 	
+	@Override
+	@Transactional
+	public ResponseEntity<?> updateImage(MultipartFile multipartFile) throws IOException {
+		String profile_image_name = UUID.randomUUID().toString() + ".jpg";
+		ObjectMetadata objMeta = new ObjectMetadata();
+		objMeta.setContentLength(multipartFile.getInputStream().available());
+		amazonS3Client.putObject(bucket, profile_image_name, multipartFile.getInputStream(), objMeta);
+		return null;
+	}
 
 	@Override
 	public void write(ArticleDto articleDto) throws Exception {
