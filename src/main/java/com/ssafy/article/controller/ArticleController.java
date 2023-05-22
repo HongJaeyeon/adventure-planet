@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -46,18 +48,23 @@ public class ArticleController {
 	
 	@PostMapping("/image")
 	public ResponseEntity<?> updateImage(@RequestParam("file") MultipartFile multipartFile) throws IOException  {
-		return articleService.updateImage(multipartFile);
+		return null;
+//		return articleService.uploadImage(multipartFile);
 	}
 	
-	@PostMapping("/write")
+	@PostMapping(value = "/write", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
 	@ApiOperation(value = "게시글 등록", notes = "게시글을 등록합니다.")
 	@ApiResponses({@ApiResponse(code = 200, message = "게시글 등록 OK"), @ApiResponse(code = 500, message = "서버 에러")})
 	//자원 요청의 body에 담아 오기에 @RequestBody
-	public ResponseEntity<?> write(@RequestBody ArticleDto articleDto) {
+	public ResponseEntity<?> write(@RequestPart ArticleDto articleDto, @RequestPart("images") List<MultipartFile> multipartFiles) {
 		logger.debug("articleDto info : {}", articleDto);
 		try {
 			articleService.write(articleDto);
-			return new ResponseEntity<List<ArticleDto>>(HttpStatus.OK);
+//			System.out.println(articleDto.getArticleNo());
+			for (MultipartFile multipartFile : multipartFiles) {				
+				System.out.println(articleService.uploadImage(multipartFile, articleDto.getArticleNo()));
+			}
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -97,7 +104,8 @@ public class ArticleController {
 		logger.debug("articleNo info : {}", articleNo);
 		try {
 			articleService.delete(articleNo);
-			return new ResponseEntity<List<ArticleDto>>(HttpStatus.OK);
+			articleService.deletePhotos(articleNo);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -111,7 +119,12 @@ public class ArticleController {
 	public ResponseEntity<?> detail(@PathVariable int articleNo) {
 		logger.debug("article detail Start");
 		try {
-			return new ResponseEntity<ArticleDto>(articleService.detail(articleNo), HttpStatus.OK);
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("article", articleService.detail(articleNo));
+			map.put("photos", articleService.getPhotos(articleNo));
+			
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}

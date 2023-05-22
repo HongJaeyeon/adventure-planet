@@ -1,6 +1,7 @@
 package com.ssafy.article.model.service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.ssafy.article.model.ArticleDto;
 import com.ssafy.article.model.BoardParameterDto;
+import com.ssafy.article.model.PhotoDto;
 import com.ssafy.article.model.mapper.ArticleMapper;
 import com.ssafy.util.PageNavigation;
 
@@ -36,12 +38,17 @@ public class ArticleServiceImpl implements ArticleService {
 	
 	@Override
 	@Transactional
-	public ResponseEntity<?> updateImage(MultipartFile multipartFile) throws IOException {
-		String profile_image_name = UUID.randomUUID().toString() + ".jpg";
+	public String uploadImage(MultipartFile multipartFile, int articleNo) throws IOException {
+		String origName = multipartFile.getOriginalFilename();
+		final String ext = origName.substring(origName.lastIndexOf('.'));
+		String profile_image_name = UUID.randomUUID().toString() + ext;
 		ObjectMetadata objMeta = new ObjectMetadata();
-		objMeta.setContentLength(multipartFile.getInputStream().available());
-		amazonS3Client.putObject(bucket, profile_image_name, multipartFile.getInputStream(), objMeta);
-		return null;
+		InputStream stream = multipartFile.getInputStream();
+		objMeta.setContentLength(stream.available());
+		amazonS3Client.putObject(bucket, profile_image_name, stream, objMeta);
+		stream.close();
+		articleMapper.addPhoto(articleNo, amazonS3Client.getUrl(bucket, profile_image_name).toString(), origName);
+		return amazonS3Client.getUrl(bucket, profile_image_name).toString();
 	}
 
 	@Override
@@ -93,6 +100,16 @@ public class ArticleServiceImpl implements ArticleService {
 		pageNavigation.setEndRange(endRange);
 
 		return pageNavigation;
+	}
+
+	@Override
+	public List<PhotoDto> getPhotos(int articleNo) {
+		return articleMapper.getPhotos(articleNo);
+	}
+
+	@Override
+	public void deletePhotos(int articleNo) {
+		articleMapper.deletePhotos(articleNo);
 	}
 
 }

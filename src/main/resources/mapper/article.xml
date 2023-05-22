@@ -5,58 +5,106 @@
 <mapper namespace="com.ssafy.article.model.mapper.ArticleMapper">
 
 	<resultMap type="articleDto" id="article">
-		<result column="article_no" property="articleNo"/>
-		<result column="user_id" property="userId"/>
-		<result column="article_title" property="articleTitle"/>
-		<result column="article_content" property="articleContent"/>
-		<result column="article_status" property="articleStatus"/>
-		<result column="article_hit" property="articleHit"/>
-		<result column="article_write_time" property="articleWriteTime"/>
-		<result column="article_write_time_ago" property="articleWriteTimeAgo"/>
+		<result column="article_no" property="articleNo" />
+		<result column="user_id" property="userId" />
+		<result column="article_title" property="articleTitle" />
+		<result column="article_content" property="articleContent" />
+		<result column="article_status" property="articleStatus" />
+		<result column="article_hit" property="articleHit" />
+		<result column="article_write_time" property="articleWriteTime" />
+		<result column="article_write_time_ago"
+			property="articleWriteTimeAgo" />
 	</resultMap>
-	
+
+	<resultMap type="photoDto" id="photo">
+		<result column="photo_no" property="photoNo" />
+		<result column="article_no" property="articleNo" />
+		<result column="plan_no" property="planNo" />
+		<result column="photo_original_name"
+			property="photoOriginalName" />
+		<result column="photo_save_name" property="photoSaveName" />
+		<result column="photo_status" property="photoStatus" />
+		<result column="photo_add_time" property="photoAddTime" />
+	</resultMap>
+
+	<insert id="addPhoto" parameterType="photoDto">
+		insert into
+		photo(article_no, photo_original_name, photo_save_name)
+		values
+		(#{articleNo}, #{photoOriginalName}, #{photoSaveName})
+	</insert>
+
 	<!-- parameterMap="article"을 쓰려면 parameterMap을 만들어야함 아닐 시 type -->
 	<!-- 공지사항 체크 시 프론트앤드에서 aritlceStatus를 2로 변경해야함 기본으로 1 -->
 	<insert id="write" parameterType="articleDto">
 		insert into article (user_id, article_title, article_content)
-		values (#{userId}, #{articleTitle}, #{articleContent})
+		values
+		(#{userId}, #{articleTitle}, #{articleContent})
+		<selectKey resultType="int" keyProperty="articleNo"
+			order="AFTER">
+			select last_insert_id() as articleNo
+		</selectKey>
 	</insert>
-	
+
 	<update id="modify" parameterType="articleDto">
 		update article
-		set article_title = #{articleTitle}, article_content = #{articleContent}
+		set
+		article_title = #{articleTitle}, article_content = #{articleContent}
 		where article_no = #{articleNo}
 	</update>
-	
+
 	<update id="delete" parameterType="int">
 		update article
-		set article_status = 0
+		set
+		article_status = 0
 		where article_no = #{articleNo}
 	</update>
-	
+
 	<select id="detail" resultMap="article">
 		select *
 		from article
-		where article_no = #{articleNo}
+		where
+		article_status = 1
+		and article_no = #{articleNo}
 	</select>
-			
-	<select id="list" parameterType="boardParameterDto" resultMap="article">
-		select article_no, user_id, article_title, article_content, article_status, article_hit, article_write_time,
-			case when timestampdiff(YEAR, article_write_time, current_timestamp)
- 				then concat(timestampdiff(YEAR, article_write_time, current_timestamp), "년전")
-			when timestampdiff(MONTH, article_write_time, current_timestamp)
- 				then concat(timestampdiff(MONTH, article_write_time, current_timestamp), "달전")
- 			when timestampdiff(DAY, article_write_time, current_timestamp)
- 				then concat(timestampdiff(DAY, article_write_time, current_timestamp), "일전")
-			when timestampdiff(HOUR, article_write_time, current_timestamp)
- 				then concat(timestampdiff(HOUR, article_write_time, current_timestamp), "시간전")
-			when timestampdiff(MINUTE, article_write_time, current_timestamp)
- 				then concat(timestampdiff(MINUTE, article_write_time, current_timestamp), "분전")
-			when timestampdiff(SECOND, article_write_time, current_timestamp)
- 				then concat(timestampdiff(SECOND, article_write_time, current_timestamp), "초전")
-			end article_write_time_ago
+
+	<select id="list" parameterType="boardParameterDto"
+		resultMap="article">
+		select article_no, user_id, article_title, article_content,
+		article_status, article_hit, article_write_time,
+		case when
+		timestampdiff(YEAR, article_write_time, current_timestamp)
+		then
+		concat(timestampdiff(YEAR, article_write_time, current_timestamp),
+		"년전")
+		when timestampdiff(MONTH, article_write_time, current_timestamp)
+		then concat(timestampdiff(MONTH, article_write_time,
+		current_timestamp),
+		"달전")
+		when timestampdiff(DAY, article_write_time,
+		current_timestamp)
+		then concat(timestampdiff(DAY, article_write_time,
+		current_timestamp),
+		"일전")
+		when timestampdiff(HOUR, article_write_time,
+		current_timestamp)
+		then concat(timestampdiff(HOUR, article_write_time,
+		current_timestamp),
+		"시간전")
+		when timestampdiff(MINUTE,
+		article_write_time, current_timestamp)
+		then
+		concat(timestampdiff(MINUTE, article_write_time, current_timestamp),
+		"분전")
+		when timestampdiff(SECOND, article_write_time, current_timestamp)
+		then concat(timestampdiff(SECOND, article_write_time,
+		current_timestamp),
+		"초전")
+		end article_write_time_ago
 		from article
-		where article_status = #{articleStatus}
+		where
+		article_status =
+		#{articleStatus}
 		<if test="articleStatus == 0 and userPosition.equals('user')">
 			and 1 = 0
 		</if>
@@ -66,14 +114,16 @@
 		order by article_write_time desc
 		limit #{start}, #{spp}
 	</select>
-	
+
 	<update id="hitCount" parameterType="int">
 		UPDATE article
-		SET article_hit = article_hit + 1
+		SET
+		article_hit = article_hit + 1
 		WHERE article_no = #{articleNo}
 	</update>
-	
-	<select id="getTotalArticleCount" parameterType="string" resultType="int">
+
+	<select id="getTotalArticleCount" parameterType="string"
+		resultType="int">
 		select count(*)
 		from article
 		where article_status = 1
@@ -81,5 +131,18 @@
 			or article_status = 0
 		</if>
 	</select>
-	
+
+	<select id="getPhotos" parameterType="int" resultMap="photo">
+		select *
+		from photo
+		where photo_status = 1
+		and article_no = #{articleNo}
+	</select>
+
+	<update id="deletePhotos" parameterType="int">
+		update photo
+		set
+		photo_status = 0
+		where article_no = #{articleNo}
+	</update>
 </mapper>

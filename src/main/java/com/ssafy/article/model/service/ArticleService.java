@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.article.model.ArticleDto;
 import com.ssafy.article.model.BoardParameterDto;
+import com.ssafy.article.model.PhotoDto;
 import com.ssafy.util.PageNavigation;
 
 public interface ArticleService {
@@ -24,5 +25,9 @@ public interface ArticleService {
 	
 	PageNavigation makePageNavigation(int pgno, String userPosition) throws Exception;
 	
-	ResponseEntity<?> updateImage(MultipartFile multipartFile) throws IOException;
+	String uploadImage(MultipartFile multipartFile, int articleNo) throws IOException;
+	
+	List<PhotoDto> getPhotos(int articleNo);
+	
+	void deletePhotos(int articleNo);
 }

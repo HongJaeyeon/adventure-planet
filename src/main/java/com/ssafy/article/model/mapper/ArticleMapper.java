@@ -1,16 +1,16 @@
 package com.ssafy.article.model.mapper;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.article.model.ArticleDto;
 import com.ssafy.article.model.BoardParameterDto;
+import com.ssafy.article.model.PhotoDto;
 
 @Mapper
 public interface ArticleMapper {
-	void write(ArticleDto articleDto) throws Exception;
+	int write(ArticleDto articleDto) throws Exception;
 	void modify(ArticleDto articleDto) throws Exception;
 	void delete(int articleNo) throws Exception;
 	
@@ -23,5 +23,12 @@ public interface ArticleMapper {
 	void hitCount (int articleNo) throws Exception;
 	
 	int getTotalArticleCount(String userPosition);
+	
+	int addPhoto(int articleNo, String photoSaveName, String photoOriginalName);
+	
+	List<PhotoDto> getPhotos(int articleNo);
+	
+	// 게시글이 지워질 때 같이 지워지기
+	void deletePhotos(int articleNo);
 
 }
