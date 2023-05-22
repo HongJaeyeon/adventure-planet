@@ -44,7 +44,7 @@ public class ArticleController {
 		this.articleService = articleService;
 	}
 	
-	@PutMapping("/image")
+	@PostMapping("/image")
 	public ResponseEntity<?> updateImage(@RequestParam("file") MultipartFile multipartFile) throws IOException  {
 		return articleService.updateImage(multipartFile);
 	}
