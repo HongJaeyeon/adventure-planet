@@ -100,6 +100,8 @@
 		then concat(timestampdiff(SECOND, article_write_time,
 		current_timestamp),
 		"초전")
+		when timestampdiff(SECOND, article_write_time, current_timestamp) = 0
+		then "방금전"
 		end article_write_time_ago
 		from article
 		where
