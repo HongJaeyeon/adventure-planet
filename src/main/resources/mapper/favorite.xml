@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ssafy.favorite.model.mapper.FavoriteMapper">
+<mapper
+	namespace="com.ssafy.favorite.model.mapper.FavoriteMapper">
 
 	<resultMap type="FavoriteDto" id="favorite">
 		<result column="favorite_no" property="favoriteNo" />
@@ -11,4 +12,68 @@
 		<result column="favorite_status" property="favoriteStatus" />
 		<result column="favorite_add_time" property="favoriteAddTime" />
 	</resultMap>
+
+	<resultMap type="attractionDto" id="attraction">
+		<result column="content_id" property="contentId" />
+		<result column="content_type_id" property="contentTypeId" />
+		<result column="title" property="title" />
+		<result column="addr1" property="addr1" />
+		<result column="addr2" property="addr2" />
+		<result column="zipcode" property="zipcode" />
+		<result column="tel" property="tel" />
+		<result column="first_image" property="firstImage" />
+		<result column="first_image2" property="firstImage2" />
+		<result column="readcount" property="readcount" />
+		<result column="sido_code" property="sidoCode" />
+		<result column="gugun_code" property="gugunCode" />
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
+		<result column="mlevel" property="mlevel" />
+		<result column="recommendation" property="recommendation" />
+		<result column="homepage" property="homepage" />
+		<result column="overview" property="overview" />
+		<result column="telname" property="telname" />
+	</resultMap>
+
+	<select id="checkFavorite" parameterType="map" resultType="int">
+		select count(*)
+		from favorite
+		where user_id = #{userId}
+		and content_id =
+		#{contentId}
+	</select>
+
+	<update id="updateRevival" parameterType="map">
+		update favorite
+		set
+		favorite_status = 1
+		where user_id = #{userId}
+		and content_id =
+		#{contentId}
+	</update>
+
+	<insert id="addFavorite" parameterType="map">
+		insert into
+		favorite(user_id, content_id)
+		values (#{userId}, #{contentId});
+	</insert>
+
+	<update id="deleteFavorite" parameterType="map">
+		update favorite
+		set
+		favorite_status = 0
+		where user_id = #{userId}
+		and content_id =
+		#{contentId}
+	</update>
+
+	<select id="listFavorite" parameterType="string"
+		resultMap="attraction">
+		select *
+		from favorite F
+		join attraction_info A
+		on F.content_id = A.content_id
+		where user_id = #{userId}
+		and favorite_status = 1
+	</select>
 </mapper>
