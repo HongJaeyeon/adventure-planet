@@ -22,5 +22,11 @@
 			select last_insert_id()
 		</selectKey>
 	</insert>
+	
+	<select id="listPlan" parameterType="int" resultMap="plan">
+		select *
+		from plan
+		where user_id = #{userId}
+	</select>
 
 </mapper>

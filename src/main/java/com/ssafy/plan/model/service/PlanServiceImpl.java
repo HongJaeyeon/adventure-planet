@@ -1,5 +1,7 @@
 package com.ssafy.plan.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,11 @@ public class PlanServiceImpl implements PlanService{
 	@Override
 	public void addWaypoint(WaypointDto waypointDto) {
 		waypointMapper.addWaypoint(waypointDto);
+	}
+
+	@Override
+	public List<PlanDto> listPlan(int userId) {
+		return planMapper.listPlan(userId);
 	}
 	
 	

@@ -1,8 +1,12 @@
 package com.ssafy.plan.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,6 +65,21 @@ public class PlanController {
 			}
 			
 			return new ResponseEntity<PlanDto>(HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+		
+	}
+	
+	@GetMapping("/list/{userId}")
+	@ApiOperation(value = "여행 계획 리스트 조회", notes = "사용자의 여행 계획을 조회합니다.")
+	@ApiResponses({@ApiResponse(code = 200, message = "여행 계획 조회 OK"), @ApiResponse(code = 500, message = "서버 에러")})
+	public ResponseEntity<?> listPlan(@PathVariable int userId) {
+		
+		try {
+			List<PlanDto> list = planService.listPlan(userId);
+			
+			return new ResponseEntity<List<PlanDto>>(list, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
