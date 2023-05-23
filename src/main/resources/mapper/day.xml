@@ -15,10 +15,19 @@
 
 	<insert id="addDay" parameterType="dayDto">
 		insert into day(plan_no, day_order, day_date)
-		values (#{planNo}, #{dayOrder}, #{dayDate})
+		values (#{planNo},
+		#{dayOrder}, #{dayDate})
 		<selectKey resultType="int" keyProperty="dayNo"
 			order="AFTER">
 			select last_insert_id()
 		</selectKey>
 	</insert>
+
+	<select id="listDay" parameterType="int" resultMap="day">
+		select *
+		from day
+		where day_status = 1
+		and plan_no = #{planNo}
+		order by day_order
+	</select>
 </mapper>

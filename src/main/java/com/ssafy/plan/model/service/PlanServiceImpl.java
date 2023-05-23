@@ -45,6 +45,21 @@ public class PlanServiceImpl implements PlanService{
 	public List<PlanDto> listPlan(int userId) {
 		return planMapper.listPlan(userId);
 	}
+
+	@Override
+	public PlanDto detailPlan(int planNo) {
+		return planMapper.detailPlan(planNo);
+	}
+
+	@Override
+	public List<DayDto> listDay(int planNo) {
+		return dayMapper.listDay(planNo);
+	}
+
+	@Override
+	public List<WaypointDto> listWaypoint(int dayNo) {
+		return waypointMapper.listWaypoint(dayNo);
+	}
 	
 	
 }

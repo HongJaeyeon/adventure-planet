@@ -26,7 +26,15 @@
 	<select id="listPlan" parameterType="int" resultMap="plan">
 		select *
 		from plan
-		where user_id = #{userId}
+		where plan_status = 1
+		and user_id = #{userId}
+	</select>
+	
+	<select id="detailPlan" parameterType="int" resultMap="plan">
+		select *
+		from plan
+		where plan_status = 1
+		and plan_no = #{planNo}
 	</select>
 
 </mapper>

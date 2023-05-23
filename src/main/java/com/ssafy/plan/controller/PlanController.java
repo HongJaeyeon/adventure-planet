@@ -85,4 +85,26 @@ public class PlanController {
 		}
 		
 	}
+	
+	@GetMapping("/detail/{planNo}")
+	@ApiOperation(value = "여행 계획 세부 조회", notes = "여행 계획을 세부 조회합니다.")
+	@ApiResponses({@ApiResponse(code = 200, message = "여행 계획 세부 조회 OK"), @ApiResponse(code = 500, message = "서버 에러")})
+	public ResponseEntity<?> detailPlan(@PathVariable int planNo) {
+		
+		try {
+			PlanDto planDto = planService.detailPlan(planNo);
+			planDto.setDays(planService.listDay(planNo));
+			
+			if (planDto.getDays() != null) {
+				for (DayDto dayDto : planDto.getDays()) {
+					dayDto.setWaypoints(planService.listWaypoint(dayDto.getDayNo()));
+				}
+			}
+			
+			return new ResponseEntity<PlanDto>(planDto, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+		
+	}
 }

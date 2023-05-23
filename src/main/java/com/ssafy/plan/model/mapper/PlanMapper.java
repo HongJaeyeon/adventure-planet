@@ -13,4 +13,6 @@ public interface PlanMapper {
 
 	List<PlanDto> listPlan(int userId);
 
+	PlanDto detailPlan(int planNo);
+
 }

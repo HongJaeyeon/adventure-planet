@@ -16,4 +16,10 @@ public interface PlanService {
 
 	List<PlanDto> listPlan(int userId);
 
+	PlanDto detailPlan(int planNo);
+
+	List<DayDto> listDay(int planNo);
+
+	List<WaypointDto> listWaypoint(int dayNo);
+
 }
