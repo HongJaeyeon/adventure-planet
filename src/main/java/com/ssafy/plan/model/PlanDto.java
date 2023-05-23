@@ -1,5 +1,7 @@
 package com.ssafy.plan.model;
 
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -18,11 +20,13 @@ public class PlanDto {
 	private String planCreateTime;
 	@ApiModelProperty(value = "여행 계획 세부 내용")
 	private String planContent;
+	@ApiModelProperty(value = "여행 계획의 day")
+	private List<DayDto> days;
 	
 	public PlanDto() {	}
 	
 	public PlanDto(int planNo, String userId, String planTitle, int planStatus, String planCreateTime,
-			String planContent) {
+			String planContent, List<DayDto> days) {
 		super();
 		this.planNo = planNo;
 		this.userId = userId;
@@ -30,8 +34,8 @@ public class PlanDto {
 		this.planStatus = planStatus;
 		this.planCreateTime = planCreateTime;
 		this.planContent = planContent;
+		this.days = days;
 	}
-
 
 	public int getPlanNo() {
 		return planNo;
@@ -80,11 +84,20 @@ public class PlanDto {
 	public void setPlanContent(String planContent) {
 		this.planContent = planContent;
 	}
+	
+	public List<DayDto> getDays() {
+		return days;
+	}
+
+	public void setDays(List<DayDto> days) {
+		this.days = days;
+	}
 
 	@Override
 	public String toString() {
 		return "PlanDto [planNo=" + planNo + ", userId=" + userId + ", planTitle=" + planTitle + ", planStatus="
-				+ planStatus + ", planCreateTime=" + planCreateTime + ", planContent=" + planContent + "]";
+				+ planStatus + ", planCreateTime=" + planCreateTime + ", planContent=" + planContent + ", days=" + days
+				+ "]";
 	}
 
 }

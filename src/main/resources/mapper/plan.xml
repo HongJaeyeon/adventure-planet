@@ -5,12 +5,22 @@
 <mapper namespace="com.ssafy.plan.model.mapper.PlanMapper">
 
 	<resultMap type="planDto" id="plan">
-		<result column="plan_no" property="planNo"/>
-		<result column="user_id" property="userId"/>
-		<result column="plan_title" property="planTitle"/>
-		<result column="plan_status" property="planStatus"/>
-		<result column="plan_create_time" property="planCreateTime"/>
-		<result column="plan_content" property="planContent"/>
+		<result column="plan_no" property="planNo" />
+		<result column="user_id" property="userId" />
+		<result column="plan_title" property="planTitle" />
+		<result column="plan_status" property="planStatus" />
+		<result column="plan_create_time" property="planCreateTime" />
+		<result column="plan_content" property="planContent" />
 	</resultMap>
-	
+
+	<insert id="writePlan" parameterType="planDto">
+		insert into plan(user_id, plan_title, plan_content)
+		values (#{userId},
+		#{planTitle}, #{planContent})
+		<selectKey resultType="int" keyProperty="planNo"
+			order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
+
 </mapper>

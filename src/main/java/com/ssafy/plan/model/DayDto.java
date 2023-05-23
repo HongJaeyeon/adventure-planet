@@ -1,5 +1,7 @@
 package com.ssafy.plan.model;
 
+import java.util.List;
+
 import io.swagger.annotations.ApiModelProperty;
 
 public class DayDto {
@@ -16,10 +18,13 @@ public class DayDto {
 	private int dayStatus;
 	@ApiModelProperty(value = "하루가 추가된 시간")
 	private String dayAddTime;
+	@ApiModelProperty(value = "하루의 waypoints")
+	private List<WaypointDto> waypoints;
 	
 	public DayDto() {	}
-
-	public DayDto(int dayNo, int planNo, int dayOrder, String dayDate, int dayStatus, String dayAddTime) {
+	
+	public DayDto(int dayNo, int planNo, int dayOrder, String dayDate, int dayStatus, String dayAddTime,
+			List<WaypointDto> waypoints) {
 		super();
 		this.dayNo = dayNo;
 		this.planNo = planNo;
@@ -27,6 +32,7 @@ public class DayDto {
 		this.dayDate = dayDate;
 		this.dayStatus = dayStatus;
 		this.dayAddTime = dayAddTime;
+		this.waypoints = waypoints;
 	}
 
 	public int getDayNo() {
@@ -76,12 +82,19 @@ public class DayDto {
 	public void setDayAddTime(String dayAddTime) {
 		this.dayAddTime = dayAddTime;
 	}
+	
+	public List<WaypointDto> getWaypoints() {
+		return waypoints;
+	}
+
+	public void setWaypoints(List<WaypointDto> waypoints) {
+		this.waypoints = waypoints;
+	}
 
 	@Override
 	public String toString() {
 		return "DayDto [dayNo=" + dayNo + ", planNo=" + planNo + ", dayOrder=" + dayOrder + ", dayDate=" + dayDate
-				+ ", dayStatus=" + dayStatus + ", dayAddTime=" + dayAddTime + "]";
+				+ ", dayStatus=" + dayStatus + ", dayAddTime=" + dayAddTime + ", waypoints=" + waypoints + "]";
 	}
-	
 	
 }

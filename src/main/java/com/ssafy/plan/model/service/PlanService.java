@@ -1,9 +1,15 @@
 package com.ssafy.plan.model.service;
 
+import com.ssafy.plan.model.DayDto;
 import com.ssafy.plan.model.PlanDto;
+import com.ssafy.plan.model.WaypointDto;
 
 public interface PlanService {
 
-	PlanDto writePlan(PlanDto planDto);
+	void writePlan(PlanDto planDto);
+
+	void addDay(DayDto dayDto);
+
+	void addWaypoint(WaypointDto waypointDto);
 
 }

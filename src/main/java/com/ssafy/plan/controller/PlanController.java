@@ -1,7 +1,5 @@
 package com.ssafy.plan.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.attraction.model.AttractionDto;
+import com.ssafy.plan.model.DayDto;
 import com.ssafy.plan.model.PlanDto;
+import com.ssafy.plan.model.WaypointDto;
 import com.ssafy.plan.model.service.PlanService;
 
 import io.swagger.annotations.Api;
@@ -43,9 +42,25 @@ public class PlanController {
 	public ResponseEntity<?> writePlan(@RequestBody PlanDto planDto) {
 		
 		try {
-			PlanDto newPlanDto = planService.writePlan(planDto);
+			planService.writePlan(planDto);
+			int planNo = planDto.getPlanNo();
+			System.out.println("planNo : " + planNo);
+			if (planDto.getDays() != null) {
+				for (DayDto dayDto : planDto.getDays()) {
+					dayDto.setPlanNo(planNo);
+					planService.addDay(dayDto);
+					int dayNo = dayDto.getDayNo();
+					System.out.println("dayNo : " + dayNo);
+					if (dayDto.getWaypoints() != null) {
+						for (WaypointDto waypointDto : dayDto.getWaypoints()) {
+							waypointDto.setDayNo(dayNo);
+							planService.addWaypoint(waypointDto);
+						}
+					}
+				}
+			}
 			
-			return new ResponseEntity<PlanDto>(newPlanDto, HttpStatus.OK);
+			return new ResponseEntity<PlanDto>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}

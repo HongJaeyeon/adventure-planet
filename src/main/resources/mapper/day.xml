@@ -2,15 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ssafy.day.model.mapper.PlanMapper">
+<mapper namespace="com.ssafy.day.model.mapper.DayMapper">
 
 	<resultMap type="dayDto" id="day">
-		<result column="day_no" property="dayNo"/>
-		<result column="plan_no" property="planNo"/>
-		<result column="day_order" property="dayOrder"/>
-		<result column="day_date" property="dayDate"/>
-		<result column="day_status" property="dayStatus"/>
-		<result column="day_add_time" property="dayAddTime"/>
+		<result column="day_no" property="dayNo" />
+		<result column="plan_no" property="planNo" />
+		<result column="day_order" property="dayOrder" />
+		<result column="day_date" property="dayDate" />
+		<result column="day_status" property="dayStatus" />
+		<result column="day_add_time" property="dayAddTime" />
 	</resultMap>
-	
+
+	<insert id="addDay" parameterType="dayDto">
+		insert into day(plan_no, day_order, day_date)
+		values (#{planNo}, #{dayOrder}, #{dayDate})
+		<selectKey resultType="int" keyProperty="dayNo"
+			order="AFTER">
+			select last_insert_id()
+		</selectKey>
+	</insert>
 </mapper>

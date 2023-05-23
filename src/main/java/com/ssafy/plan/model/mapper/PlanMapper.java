@@ -7,6 +7,6 @@ import com.ssafy.plan.model.PlanDto;
 @Mapper
 public interface PlanMapper {
 
-	PlanDto writePlan(PlanDto planDto);
+	void writePlan(PlanDto planDto);
 
 }
