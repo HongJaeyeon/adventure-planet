@@ -14,7 +14,7 @@ public interface PlanService {
 
 	void addWaypoint(WaypointDto waypointDto);
 
-	List<PlanDto> listPlan(int userId);
+	List<PlanDto> listPlan(String userId);
 
 	PlanDto detailPlan(int planNo);
 

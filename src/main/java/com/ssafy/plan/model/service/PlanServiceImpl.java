@@ -41,7 +41,7 @@ public class PlanServiceImpl implements PlanService{
 	}
 
 	@Override
-	public List<PlanDto> listPlan(int userId) {
+	public List<PlanDto> listPlan(String userId) {
 		return planMapper.listPlan(userId);
 	}
 

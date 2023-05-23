@@ -75,7 +75,7 @@ public class PlanController {
 	@GetMapping("/list/{userId}")
 	@ApiOperation(value = "여행 계획 리스트 조회", notes = "사용자의 여행 계획을 조회합니다.")
 	@ApiResponses({@ApiResponse(code = 200, message = "여행 계획 조회 OK"), @ApiResponse(code = 500, message = "서버 에러")})
-	public ResponseEntity<?> listPlan(@PathVariable int userId) {
+	public ResponseEntity<?> listPlan(@PathVariable String userId) {
 
 		try {
 			List<PlanDto> list = planService.listPlan(userId);

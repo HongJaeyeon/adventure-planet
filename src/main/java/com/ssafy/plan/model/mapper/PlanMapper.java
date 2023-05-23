@@ -11,7 +11,7 @@ public interface PlanMapper {
 
 	void writePlan(PlanDto planDto);
 
-	List<PlanDto> listPlan(int userId);
+	List<PlanDto> listPlan(String userId);
 
 	PlanDto detailPlan(int planNo);
 

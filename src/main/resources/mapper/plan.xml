@@ -23,7 +23,7 @@
 		</selectKey>
 	</insert>
 
-	<select id="listPlan" parameterType="int" resultMap="plan">
+	<select id="listPlan" parameterType="string" resultMap="plan">
 		select *
 		from plan
 		where plan_status = 1
