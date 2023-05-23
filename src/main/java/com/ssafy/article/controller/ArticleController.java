@@ -37,123 +37,127 @@ import io.swagger.annotations.ApiResponses;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @Api(tags = {"게시글 API"})
 public class ArticleController {
-	private final Logger logger = LoggerFactory.getLogger(ArticleController.class);
-	
-	private ArticleService articleService;
-	
-	public ArticleController(ArticleService articleService) {
-		super();
-		this.articleService = articleService;
-	}
-	
-	@PostMapping("/image")
-	public ResponseEntity<?> updateImage(@RequestParam("file") MultipartFile multipartFile) throws IOException  {
-		return null;
-//		return articleService.uploadImage(multipartFile);
-	}
-	
-	@PostMapping(value = "/write", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-	@ApiOperation(value = "게시글 등록", notes = "게시글을 등록합니다.")
-	@ApiResponses({@ApiResponse(code = 200, message = "게시글 등록 OK"), @ApiResponse(code = 500, message = "서버 에러")})
-	//자원 요청의 body에 담아 오기에 @RequestBody
-	public ResponseEntity<?> write(@RequestPart ArticleDto articleDto, @RequestPart(value = "images", required = false) List<MultipartFile> multipartFiles) {
-		logger.debug("articleDto info : {}", articleDto);
-		try {
-			articleService.write(articleDto);
-//			System.out.println(articleDto.getArticleNo());
-			if (multipartFiles != null) {
-				for (MultipartFile multipartFile : multipartFiles) {				
-					System.out.println(articleService.uploadImage(multipartFile, articleDto.getArticleNo()));
-				}
-			}
-			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			return exceptionHandling(e);
-		}
-	}
-	
-	@PutMapping("/modify")
-	@ApiOperation(value = "게시글 수정", notes = "게시글을 수정합니다.")
-	@ApiResponses({@ApiResponse(code = 200, message = "게시글 수정 OK"), @ApiResponse(code = 500, message = "서버 에러")})
-	public ResponseEntity<?> modify(@RequestBody ArticleDto articleDto) {
-		logger.debug("articleDto info : {}", articleDto);
-		try {
-			articleService.modify(articleDto);
-			return new ResponseEntity<List<ArticleDto>>(HttpStatus.OK);
-		} catch (Exception e) {
-			return exceptionHandling(e);
-		}
-	}
-	
-	
-	
-//	@DeleteMapping("delete/{articleNo}")
-//	public ResponseEntity<?> delete(@RequestParam int articleNo) {
-//		logger.debug("articleNo info : {}", articleNo);
-//		try {
-//			articleService.delete(articleNo);
-//			List<ArticleDto> list = articleService.list();
-//			return new ResponseEntity<List<ArticleDto>>(list, HttpStatus.OK);
-//		} catch (Exception e) {
-//			return exceptionHandling(e);
-//		}
-//	}
-	
-	@PutMapping("delete/{articleNo}")
-	@ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제합니다.")
-	@ApiResponses({@ApiResponse(code = 200, message = "게시글 삭제 OK"), @ApiResponse(code = 500, message = "서버 에러")})
-	public ResponseEntity<?> delete(@PathVariable int articleNo) {
-		logger.debug("articleNo info : {}", articleNo);
-		try {
-			articleService.delete(articleNo);
-			articleService.deletePhotos(articleNo);
-			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			return exceptionHandling(e);
-		}
-	}
-	
-	@GetMapping("/detail/{articleNo}")
-	@ApiOperation(value = "게시글 세부 정보", notes = "게시글의 세부 정보를 가져옵니다.")
-	@ApiResponses({@ApiResponse(code = 200, message = "게시글 세부 정보 OK"), @ApiResponse(code = 500, message = "서버 에러")})
-//	post는 일단 body를 쓴다는 말이다.-> json에 담아보내고 @RequestBody으로 받는다
-//	get은 body를 안쓰고 uri에 들어가니까 PathVariable로 받아야한다.
-	public ResponseEntity<?> detail(@PathVariable int articleNo) {
-		logger.debug("article detail Start");
-		try {
-			Map<String, Object> map = new HashMap<String, Object>();
-			
-			map.put("article", articleService.detail(articleNo));
-			map.put("photos", articleService.getPhotos(articleNo));
-			
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-		} catch (Exception e) {
-			return exceptionHandling(e);
-		}
-	}
-	
-	@GetMapping("/list")
-	@ApiOperation(value = "게시글 목록", notes = "게시글의 목록을 가져옵니다.")
-	@ApiResponses({@ApiResponse(code = 200, message = "게시글 목록 OK"), @ApiResponse(code = 500, message = "서버 에러")})
-	public ResponseEntity<?> list(BoardParameterDto boardParameterDto) {
-		logger.debug("article list Start");
-		System.out.println(boardParameterDto);
-		Map<String, Object> map = new HashMap<String, Object>();
-		try {
-			if (boardParameterDto.getUserPosition() == null) boardParameterDto.setUserPosition("user");
-			System.out.println(boardParameterDto);
-			List<ArticleDto> list = articleService.list(boardParameterDto);
-			PageNavigation pageNavigation = articleService.makePageNavigation(boardParameterDto.getPg(), boardParameterDto.getUserPosition());
-			map.put("list", list);
-			map.put("navigation", pageNavigation);
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-		} catch (Exception e) {
-			return exceptionHandling(e);
-		}
-	}
-	
-	private ResponseEntity<String> exceptionHandling(Exception e) {
-		e.printStackTrace();
-		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-	}
+    private final Logger logger = LoggerFactory.getLogger(ArticleController.class);
+    
+    private ArticleService articleService;
+    
+    public ArticleController(ArticleService articleService) {
+        super();
+        this.articleService = articleService;
+    }
+    
+    @PostMapping("/image")
+    public ResponseEntity<?> updateImage(@RequestParam("file") MultipartFile multipartFile) throws IOException  {
+        return null;
+//        return articleService.uploadImage(multipartFile);
+    }
+    
+    @PostMapping(value = "/write", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @ApiOperation(value = "게시글 등록", notes = "게시글을 등록합니다.")
+    @ApiResponses({@ApiResponse(code = 200, message = "게시글 등록 OK"), @ApiResponse(code = 500, message = "서버 에러")})
+    //자원 요청의 body에 담아 오기에 @RequestBody
+    public ResponseEntity<?> write(@RequestParam Map<String, String> articleDto, @RequestParam(value = "images", required = false) List<MultipartFile> multipartFiles) {
+        logger.debug("articleDto info : {}", articleDto);
+        ArticleDto ari = new ArticleDto();
+        ari.setUserId(articleDto.get("userId"));
+        ari.setArticleTitle(articleDto.get("articleTitle"));
+        ari.setArticleContent(articleDto.get("articleContent"));
+        try {
+            articleService.write(ari);
+//            System.out.println(articleDto.getArticleNo());
+            if (multipartFiles != null) {
+                for (MultipartFile multipartFile : multipartFiles) {                
+                    System.out.println(articleService.uploadImage(multipartFile, ari.getArticleNo()));
+                }
+            }
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+    
+    @PutMapping("/modify")
+    @ApiOperation(value = "게시글 수정", notes = "게시글을 수정합니다.")
+    @ApiResponses({@ApiResponse(code = 200, message = "게시글 수정 OK"), @ApiResponse(code = 500, message = "서버 에러")})
+    public ResponseEntity<?> modify(@RequestBody ArticleDto articleDto) {
+        logger.debug("articleDto info : {}", articleDto);
+        try {
+            articleService.modify(articleDto);
+            return new ResponseEntity<List<ArticleDto>>(HttpStatus.OK);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+    
+    
+    
+//    @DeleteMapping("delete/{articleNo}")
+//    public ResponseEntity<?> delete(@RequestParam int articleNo) {
+//        logger.debug("articleNo info : {}", articleNo);
+//        try {
+//            articleService.delete(articleNo);
+//            List<ArticleDto> list = articleService.list();
+//            return new ResponseEntity<List<ArticleDto>>(list, HttpStatus.OK);
+//        } catch (Exception e) {
+//            return exceptionHandling(e);
+//        }
+//    }
+    
+    @PutMapping("delete/{articleNo}")
+    @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제합니다.")
+    @ApiResponses({@ApiResponse(code = 200, message = "게시글 삭제 OK"), @ApiResponse(code = 500, message = "서버 에러")})
+    public ResponseEntity<?> delete(@PathVariable int articleNo) {
+        logger.debug("articleNo info : {}", articleNo);
+        try {
+            articleService.delete(articleNo);
+            articleService.deletePhotos(articleNo);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+    
+    @GetMapping("/detail/{articleNo}")
+    @ApiOperation(value = "게시글 세부 정보", notes = "게시글의 세부 정보를 가져옵니다.")
+    @ApiResponses({@ApiResponse(code = 200, message = "게시글 세부 정보 OK"), @ApiResponse(code = 500, message = "서버 에러")})
+//    post는 일단 body를 쓴다는 말이다.-> json에 담아보내고 @RequestBody으로 받는다
+//    get은 body를 안쓰고 uri에 들어가니까 PathVariable로 받아야한다.
+    public ResponseEntity<?> detail(@PathVariable int articleNo) {
+        logger.debug("article detail Start");
+        try {
+            Map<String, Object> map = new HashMap<String, Object>();
+            
+            map.put("article", articleService.detail(articleNo));
+            map.put("photos", articleService.getPhotos(articleNo));
+            
+            return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+    
+    @GetMapping("/list")
+    @ApiOperation(value = "게시글 목록", notes = "게시글의 목록을 가져옵니다.")
+    @ApiResponses({@ApiResponse(code = 200, message = "게시글 목록 OK"), @ApiResponse(code = 500, message = "서버 에러")})
+    public ResponseEntity<?> list(BoardParameterDto boardParameterDto) {
+        logger.debug("article list Start");
+        System.out.println(boardParameterDto);
+        Map<String, Object> map = new HashMap<String, Object>();
+        try {
+            if (boardParameterDto.getUserPosition() == null) boardParameterDto.setUserPosition("user");
+            System.out.println(boardParameterDto);
+            List<ArticleDto> list = articleService.list(boardParameterDto);
+            PageNavigation pageNavigation = articleService.makePageNavigation(boardParameterDto.getPg(), boardParameterDto.getUserPosition());
+            map.put("list", list);
+            map.put("navigation", pageNavigation);
+            return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+    
+    private ResponseEntity<String> exceptionHandling(Exception e) {
+        e.printStackTrace();
+        return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
