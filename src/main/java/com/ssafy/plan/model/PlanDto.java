@@ -1,7 +1,5 @@
 package com.ssafy.plan.model;
 
-import java.util.List;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -16,19 +14,24 @@ public class PlanDto {
 	private String planTitle;
 	@ApiModelProperty(value = "여행 계획 상태")
 	private int planStatus;
-	@ApiModelProperty(value = "관광지 경로 리스트")
-	private List<WaypointDto> waypoints;
+	@ApiModelProperty(value = "여행 계획 만든 시간")
+	private String planCreateTime;
+	@ApiModelProperty(value = "여행 계획 세부 내용")
+	private String planContent;
 	
 	public PlanDto() {	}
-
-	public PlanDto(int planNo, String userId, String planTitle, int planStatus, List<WaypointDto> waypoints) {
+	
+	public PlanDto(int planNo, String userId, String planTitle, int planStatus, String planCreateTime,
+			String planContent) {
 		super();
 		this.planNo = planNo;
 		this.userId = userId;
 		this.planTitle = planTitle;
 		this.planStatus = planStatus;
-		this.waypoints = waypoints;
+		this.planCreateTime = planCreateTime;
+		this.planContent = planContent;
 	}
+
 
 	public int getPlanNo() {
 		return planNo;
@@ -61,19 +64,27 @@ public class PlanDto {
 	public void setPlanStatus(int planStatus) {
 		this.planStatus = planStatus;
 	}
-
-	public List<WaypointDto> getWaypoints() {
-		return waypoints;
+	
+	public String getPlanCreateTime() {
+		return planCreateTime;
 	}
 
-	public void setWaypoints(List<WaypointDto> waypoints) {
-		this.waypoints = waypoints;
+	public void setPlanCreateTime(String planCreateTime) {
+		this.planCreateTime = planCreateTime;
+	}
+
+	public String getPlanContent() {
+		return planContent;
+	}
+
+	public void setPlanContent(String planContent) {
+		this.planContent = planContent;
 	}
 
 	@Override
 	public String toString() {
 		return "PlanDto [planNo=" + planNo + ", userId=" + userId + ", planTitle=" + planTitle + ", planStatus="
-				+ planStatus + ", waypoints=" + waypoints + "]";
+				+ planStatus + ", planCreateTime=" + planCreateTime + ", planContent=" + planContent + "]";
 	}
-	
+
 }

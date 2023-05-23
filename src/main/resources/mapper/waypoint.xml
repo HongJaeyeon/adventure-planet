@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.waypoint.model.mapper.PlanMapper">
+
+	<resultMap type="waypointDto" id="waypoint">
+		<result column="waypoint_no" property="waypointNo"/>
+		<result column="day_no" property="dayNo"/>
+		<result column="content_id" property="contentId"/>
+		<result column="waypoint_order" property="waypointOrder"/>
+		<result column="waypoint_content" property="waypointContent"/>
+		<result column="waypoint_status" property="waypointStatus"/>
+		<result column="waypoint_add_time" property="waypointAddTime"/>
+	</resultMap>
+	
+</mapper>

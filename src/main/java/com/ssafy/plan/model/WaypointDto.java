@@ -8,28 +8,31 @@ public class WaypointDto {
 
 	@ApiModelProperty(value = "관광지 경로 번호")
 	private int waypointNo;
-	@ApiModelProperty(value = "여행 계획 번호")
-	private int planNo;
+	@ApiModelProperty(value = "속한 여행 계획의 Day 번호")
+	private int dayNo;
 	@ApiModelProperty(value = "관광지 번호")
-	private int attractionContentId;
+	private int contentId;
 	@ApiModelProperty(value = "관광지 경로 순서")
 	private int waypointOrder;
 	@ApiModelProperty(value = "관광지 경로 내용")
 	private String waypointContent;
 	@ApiModelProperty(value = "관광지 경로 상태")
 	private int waypointStatus;
+	@ApiModelProperty(value = "관광지 추가한 시간")
+	private String waypointAddTime;
 	
 	public WaypointDto() {	}
 
-	public WaypointDto(int waypointNo, int planNo, int attractionContentId, int waypointOrder, String waypointContent,
-			int waypointStatus) {
+	public WaypointDto(int waypointNo, int dayNo, int contentId, int waypointOrder, String waypointContent,
+			int waypointStatus, String waypointAddTime) {
 		super();
 		this.waypointNo = waypointNo;
-		this.planNo = planNo;
-		this.attractionContentId = attractionContentId;
+		this.dayNo = dayNo;
+		this.contentId = contentId;
 		this.waypointOrder = waypointOrder;
 		this.waypointContent = waypointContent;
 		this.waypointStatus = waypointStatus;
+		this.waypointAddTime = waypointAddTime;
 	}
 
 	public int getWaypointNo() {
@@ -38,22 +41,6 @@ public class WaypointDto {
 
 	public void setWaypointNo(int waypointNo) {
 		this.waypointNo = waypointNo;
-	}
-
-	public int getPlanNo() {
-		return planNo;
-	}
-
-	public void setPlanNo(int planNo) {
-		this.planNo = planNo;
-	}
-
-	public int getAttractionContentId() {
-		return attractionContentId;
-	}
-
-	public void setAttractionContentId(int attractionContentId) {
-		this.attractionContentId = attractionContentId;
 	}
 
 	public int getWaypointOrder() {
@@ -80,12 +67,35 @@ public class WaypointDto {
 		this.waypointStatus = waypointStatus;
 	}
 
+	public int getDayNo() {
+		return dayNo;
+	}
+
+	public void setDayNo(int dayNo) {
+		this.dayNo = dayNo;
+	}
+
+	public int getContentId() {
+		return contentId;
+	}
+
+	public void setContentId(int contentId) {
+		this.contentId = contentId;
+	}
+
+	public String getWaypointAddTime() {
+		return waypointAddTime;
+	}
+
+	public void setWaypointAddTime(String waypointAddTime) {
+		this.waypointAddTime = waypointAddTime;
+	}
+
 	@Override
 	public String toString() {
-		return "WaypointDto [waypointNo=" + waypointNo + ", planNo=" + planNo + ", attractionContentId="
-				+ attractionContentId + ", waypointOrder=" + waypointOrder + ", waypointContent=" + waypointContent
-				+ ", waypointStatus=" + waypointStatus + "]";
+		return "WaypointDto [waypointNo=" + waypointNo + ", dayNo=" + dayNo + ", contentId=" + contentId
+				+ ", waypointOrder=" + waypointOrder + ", waypointContent=" + waypointContent + ", waypointStatus="
+				+ waypointStatus + ", waypointAddTime=" + waypointAddTime + "]";
 	}
-	
-	
+
 }

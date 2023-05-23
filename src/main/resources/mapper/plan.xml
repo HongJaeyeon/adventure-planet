@@ -5,13 +5,12 @@
 <mapper namespace="com.ssafy.plan.model.mapper.PlanMapper">
 
 	<resultMap type="planDto" id="plan">
-		<result column="article_no" property="articleNo"/>
+		<result column="plan_no" property="planNo"/>
 		<result column="user_id" property="userId"/>
-		<result column="user_name" property="userName"/>
-		<result column="subject" property="subject"/>
-		<result column="content" property="content"/>
-		<result column="hit" property="hit"/>
-		<result column="register_time" property="registerTime"/>
+		<result column="plan_title" property="planTitle"/>
+		<result column="plan_status" property="planStatus"/>
+		<result column="plan_create_time" property="planCreateTime"/>
+		<result column="plan_content" property="planContent"/>
 	</resultMap>
 	
 </mapper>
