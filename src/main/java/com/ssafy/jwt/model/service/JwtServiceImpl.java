@@ -12,7 +12,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MutablePropertySources;
-import org.springframework.core.env.PropertySources;
 import org.springframework.core.io.support.ResourcePropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
