@@ -20,6 +20,7 @@ public class AttractionDto {
 	private String homepage;
 	private String overview;
 	private String telname;
+	private boolean isFavorite;
 	
 	
 	public AttractionDto() {	}
@@ -27,7 +28,7 @@ public class AttractionDto {
 	public AttractionDto(int contentId, int contentTypeId, String title, String addr1, String addr2, String zipcode,
 			String tel, String firstImage, String firstImage2, int readcount, int sidoCode, int gugunCode,
 			double latitude, double longitude, String mlevel, int recommendation, String homepage, String overview,
-			String telname) {
+			String telname, boolean isFavorite) {
 		super();
 		this.contentId = contentId;
 		this.contentTypeId = contentTypeId;
@@ -48,6 +49,7 @@ public class AttractionDto {
 		this.homepage = homepage;
 		this.overview = overview;
 		this.telname = telname;
+		this.isFavorite = isFavorite;
 	}
 
 	public int getContentId() {
@@ -201,6 +203,14 @@ public class AttractionDto {
 	public void setTelname(String telname) {
 		this.telname = telname;
 	}
+	
+	public boolean getIsFavorite() {
+		return isFavorite;
+	}
+
+	public void setIsFavorite(boolean isFavorite) {
+		this.isFavorite = isFavorite;
+	}
 
 	@Override
 	public String toString() {
@@ -209,7 +219,8 @@ public class AttractionDto {
 				+ firstImage + ", firstImage2=" + firstImage2 + ", readcount=" + readcount + ", sidoCode=" + sidoCode
 				+ ", gugunCode=" + gugunCode + ", latitude=" + latitude + ", longitude=" + longitude + ", mlevel="
 				+ mlevel + ", recommendation=" + recommendation + ", homepage=" + homepage + ", overview=" + overview
-				+ ", telname=" + telname + "]";
-	}	
+				+ ", telname=" + telname + ", isFavorite=" + isFavorite + "]";
+	}
+
 	
 }

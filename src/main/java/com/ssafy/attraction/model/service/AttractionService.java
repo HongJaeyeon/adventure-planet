@@ -14,4 +14,6 @@ public interface AttractionService {
 
 	AttractionDto detailAttraction(int contentId);
 
+	int checkFavorite(Map<String, Object> m);
+
 }

@@ -48,7 +48,7 @@ public class AttractionController {
 	@GetMapping("/search")
 	@ApiOperation(value = "여행지 검색", notes = "여행지를 검색합니다.")
 	@ApiResponses({@ApiResponse(code = 200, message = "여행지 검색 OK"), @ApiResponse(code = 500, message = "서버 에러")})
-	public ResponseEntity<?> searchAttraction(@RequestParam(required = false, defaultValue = "-1") int sidoCode, @RequestParam(required = false, defaultValue = "-1") int gugunCode, @RequestParam(required = false, defaultValue = "-1") int contentTypeId, @RequestParam(required = false) String word) {
+	public ResponseEntity<?> searchAttraction(@RequestParam(required = false, defaultValue = "-1") int sidoCode, @RequestParam(required = false, defaultValue = "-1") int gugunCode, @RequestParam(required = false, defaultValue = "-1") int contentTypeId, @RequestParam(required = false) String word, @RequestParam(required = false) String userId) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		System.out.println(gugunCode);
 		map.put("sidoCode", sidoCode);
@@ -58,6 +58,22 @@ public class AttractionController {
 		try {
 			logger.debug("Map info : {}", map);
 			List<AttractionDto> list = attractionService.searchAttraction(map);
+			
+			if (userId != null && list != null) {
+				
+				for (AttractionDto attractionDto : list) {
+					Map<String, Object> m = new HashMap<String, Object>();
+					m.put("userId", userId);
+					m.put("contentId", attractionDto.getContentId());
+					if (attractionService.checkFavorite(m) == 1) {
+//						System.out.println("true");
+						attractionDto.setIsFavorite(true);
+					} else {
+//						System.out.println("false");
+						attractionDto.setIsFavorite(false);						
+					}
+				}
+			}
 			
 			return new ResponseEntity<List<AttractionDto>>(list, HttpStatus.OK);
 		} catch (Exception e) {
