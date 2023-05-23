@@ -13,4 +13,6 @@ public interface DayMapper {
 
 	List<DayDto> listDay(int planNo);
 
+	void deleteDay(int dayNo);
+
 }

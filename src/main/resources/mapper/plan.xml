@@ -22,19 +22,25 @@
 			select last_insert_id()
 		</selectKey>
 	</insert>
-	
+
 	<select id="listPlan" parameterType="int" resultMap="plan">
 		select *
 		from plan
 		where plan_status = 1
 		and user_id = #{userId}
 	</select>
-	
+
 	<select id="detailPlan" parameterType="int" resultMap="plan">
 		select *
 		from plan
 		where plan_status = 1
 		and plan_no = #{planNo}
 	</select>
+
+	<update id="deletePlan" parameterType="int">
+		update plan
+		set plan_status = 0
+		where plan_no = #{planNo}
+	</update>
 
 </mapper>

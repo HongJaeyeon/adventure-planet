@@ -15,4 +15,6 @@ public interface PlanMapper {
 
 	PlanDto detailPlan(int planNo);
 
+	void deletePlan(int planNo);
+
 }

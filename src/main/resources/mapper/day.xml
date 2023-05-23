@@ -25,9 +25,17 @@
 
 	<select id="listDay" parameterType="int" resultMap="day">
 		select *
-		from day
+		from
+		day
 		where day_status = 1
 		and plan_no = #{planNo}
 		order by day_order
 	</select>
+
+	<update id="deleteDay" parameterType="int">
+		update day
+		set day_status = 0
+		where day_no = #{dayNo}
+	</update>
+	
 </mapper>

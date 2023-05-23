@@ -13,4 +13,6 @@ public interface WaypointMapper {
 
 	List<WaypointDto> listWaypoint(int dayNo);
 
+	void deleteWaypoint(int waypointNo);
+
 }

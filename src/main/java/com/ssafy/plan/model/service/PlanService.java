@@ -22,4 +22,10 @@ public interface PlanService {
 
 	List<WaypointDto> listWaypoint(int dayNo);
 
+	void deletePlan(int planNo);
+
+	void deleteDay(int dayNo);
+
+	void deleteWaypoint(int waypointNo);
+
 }

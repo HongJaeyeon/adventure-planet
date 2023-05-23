@@ -2,7 +2,6 @@ package com.ssafy.plan.model.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.day.model.mapper.DayMapper;
@@ -59,6 +58,21 @@ public class PlanServiceImpl implements PlanService{
 	@Override
 	public List<WaypointDto> listWaypoint(int dayNo) {
 		return waypointMapper.listWaypoint(dayNo);
+	}
+
+	@Override
+	public void deletePlan(int planNo) {
+		planMapper.deletePlan(planNo);
+	}
+
+	@Override
+	public void deleteDay(int dayNo) {
+		dayMapper.deleteDay(dayNo);
+	}
+
+	@Override
+	public void deleteWaypoint(int waypointNo) {
+		waypointMapper.deleteWaypoint(waypointNo);
 	}
 	
 	

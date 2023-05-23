@@ -27,7 +27,15 @@
 		select *
 		from waypoint
 		where waypoint_status = 1
-		and day_no = #{dayNo}
+		and day_no =
+		#{dayNo}
 		order by waypoint_order
 	</select>
+
+	<update id="deleteWaypoint" parameterType="int">
+		update waypoint
+		set waypoint_status = 0
+		where waypoint_no = #{waypointNo}
+	</update>
+
 </mapper>
