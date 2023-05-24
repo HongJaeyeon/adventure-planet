@@ -63,9 +63,7 @@
 	<select id="detail" resultMap="article">
 		select *
 		from article
-		where
-		article_status = 1
-		and article_no = #{articleNo}
+		where article_no = #{articleNo}
 	</select>
 
 	<select id="list" parameterType="boardParameterDto"
