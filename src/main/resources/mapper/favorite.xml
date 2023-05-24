@@ -41,6 +41,7 @@
 		where user_id = #{userId}
 		and content_id =
 		#{contentId}
+		and favorite_status = 1
 	</select>
 
 	<update id="updateRevival" parameterType="map">
