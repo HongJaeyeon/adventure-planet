@@ -13,10 +13,10 @@
 		<result column="waypoint_content" property="waypointContent" />
 		<result column="waypoint_status" property="waypointStatus" />
 		<result column="waypoint_add_time" property="waypointAddTime" />
-		<result column="content_title" property="contentTitle" />
-		<result column="content_addr1" property="contentAddr1" />
+		<result column="content_title" property="title" />
+		<result column="content_addr1" property="addr1" />
 		<result column="content_first_image"
-			property="contentFirstImage" />
+			property="firstImage" />
 	</resultMap>
 
 	<insert id="addWaypoint" parameterType="waypointDto">

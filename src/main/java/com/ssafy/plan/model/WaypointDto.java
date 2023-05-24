@@ -22,17 +22,16 @@ public class WaypointDto {
 	private String waypointAddTime;
 	
 	@ApiModelProperty(value = "관광지 이름")
-	private String contentTitle;
+	private String title;
 	@ApiModelProperty(value = "관광지 주소")
-	private String contentAddr1;
+	private String addr1;
 	@ApiModelProperty(value = "관광지 사진")
-	private String contentFirstImage;
+	private String firstImage;
 	
 	public WaypointDto() {	}
 
 	public WaypointDto(int waypointNo, int dayNo, int contentId, int waypointOrder, String waypointContent,
-			int waypointStatus, String waypointAddTime, String contentTitle, String contentAddr1,
-			String contentFirstImage) {
+			int waypointStatus, String waypointAddTime, String title, String addr1, String firstImage) {
 		super();
 		this.waypointNo = waypointNo;
 		this.dayNo = dayNo;
@@ -41,10 +40,12 @@ public class WaypointDto {
 		this.waypointContent = waypointContent;
 		this.waypointStatus = waypointStatus;
 		this.waypointAddTime = waypointAddTime;
-		this.contentTitle = contentTitle;
-		this.contentAddr1 = contentAddr1;
-		this.contentFirstImage = contentFirstImage;
+		this.title = title;
+		this.addr1 = addr1;
+		this.firstImage = firstImage;
 	}
+
+
 
 	public int getWaypointNo() {
 		return waypointNo;
@@ -102,36 +103,37 @@ public class WaypointDto {
 		this.waypointAddTime = waypointAddTime;
 	}
 	
-	public String getContentTitle() {
-		return contentTitle;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setContentTitle(String contentTitle) {
-		this.contentTitle = contentTitle;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getContentAddr1() {
-		return contentAddr1;
+	public String getAddr1() {
+		return addr1;
 	}
 
-	public void setContentAddr1(String contentAddr1) {
-		this.contentAddr1 = contentAddr1;
+	public void setAddr1(String addr1) {
+		this.addr1 = addr1;
 	}
 
-	public String getContentFirstImage() {
-		return contentFirstImage;
+	public String getFirstImage() {
+		return firstImage;
 	}
 
-	public void setContentFirstImage(String contentFirstImage) {
-		this.contentFirstImage = contentFirstImage;
+	public void setFirstImage(String firstImage) {
+		this.firstImage = firstImage;
 	}
 
 	@Override
 	public String toString() {
 		return "WaypointDto [waypointNo=" + waypointNo + ", dayNo=" + dayNo + ", contentId=" + contentId
 				+ ", waypointOrder=" + waypointOrder + ", waypointContent=" + waypointContent + ", waypointStatus="
-				+ waypointStatus + ", waypointAddTime=" + waypointAddTime + ", contentTitle=" + contentTitle
-				+ ", contentAddr1=" + contentAddr1 + ", contentFirstImage=" + contentFirstImage + "]";
+				+ waypointStatus + ", waypointAddTime=" + waypointAddTime + ", title=" + title + ", addr1=" + addr1
+				+ ", firstImage=" + firstImage + "]";
 	}
 
+	
 }
