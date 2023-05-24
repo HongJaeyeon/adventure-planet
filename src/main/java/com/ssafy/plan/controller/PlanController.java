@@ -118,9 +118,9 @@ public class PlanController {
 
 	}
 	
-	@GetMapping("/listWaypoint/{dayNo}")
+	@GetMapping("/list/Waypoint/{dayNo}")
 	@ApiOperation(value = "여행 요소 리스트 조회", notes = "사용자의 여행 요소를 조회합니다.")
-	@ApiResponses({@ApiResponse(code = 200, message = "여행 계획 조회 OK"), @ApiResponse(code = 500, message = "서버 에러")})
+	@ApiResponses({@ApiResponse(code = 200, message = "여행 요소 조회 OK"), @ApiResponse(code = 500, message = "서버 에러")})
 	public ResponseEntity<?> listWaypoints(@PathVariable int dayNo) {
 		
 		try {
@@ -176,10 +176,24 @@ public class PlanController {
 
 			for (DayDto dayDto : planDto.getDays()) {
 				planService.deleteDay(dayDto.getDayNo());
-				for (WaypointDto waypointDto : dayDto.getWaypoints()) {
-					planService.deleteWaypoint(waypointDto.getWaypointNo());
-				}
+				planService.deleteWaypoint(dayDto.getDayNo());
 			}
+
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+
+	}
+	
+	@PutMapping("/delete/Waypoint/{dayNo}")
+	@ApiOperation(value = "여행 요소 전체 삭제", notes = "여행 요소를 모두 삭제합니다.")
+	@ApiResponses({@ApiResponse(code = 200, message = "여행 요소 삭제 OK"), @ApiResponse(code = 500, message = "서버 에러")})
+	public ResponseEntity<?> deleteWaypoint(@PathVariable int dayNo) {
+
+		try {
+
+			planService.deleteWaypoint(dayNo);
 
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {

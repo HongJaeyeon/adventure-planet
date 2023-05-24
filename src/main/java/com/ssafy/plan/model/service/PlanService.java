@@ -24,7 +24,7 @@ public interface PlanService {
 
 	void deleteDay(int dayNo);
 
-	void deleteWaypoint(int waypointNo);
+	void deleteWaypoint(int dayNo);
 
 	int getNextDayOrder(int planNo);
 

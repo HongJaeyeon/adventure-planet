@@ -66,8 +66,8 @@ public class PlanServiceImpl implements PlanService{
 	}
 
 	@Override
-	public void deleteWaypoint(int waypointNo) {
-		waypointMapper.deleteWaypoint(waypointNo);
+	public void deleteWaypoint(int dayNo) {
+		waypointMapper.deleteWaypoint(dayNo);
 	}
 
 	@Override

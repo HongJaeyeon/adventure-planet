@@ -44,7 +44,7 @@
 		update waypoint
 		set
 		waypoint_status = 0
-		where waypoint_no = #{waypointNo}
+		where day_no = #{dayNo}
 	</update>
 
 </mapper>
