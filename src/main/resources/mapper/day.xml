@@ -41,7 +41,7 @@
 
 	<select id="getNextDayOrder" parameterType="int" resultType="int">
 		select
-		max(day_order) + 1 as day_order
+		if(max(day_order) is not null,  max(day_order) + 1, 0) as day_order
 		from day
 		where plan_no = #{planNo}
 	</select>
