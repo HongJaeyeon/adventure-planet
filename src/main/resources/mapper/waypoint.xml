@@ -15,8 +15,12 @@
 		<result column="waypoint_add_time" property="waypointAddTime" />
 		<result column="content_title" property="title" />
 		<result column="content_addr1" property="addr1" />
+		<result column="content_addr1" property="addr1" />
+		<result column="content_addr1" property="addr1" />
 		<result column="content_first_image"
 			property="firstImage" />
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
 	</resultMap>
 
 	<insert id="addWaypoint" parameterType="waypointDto">
@@ -31,7 +35,7 @@
 		select waypoint_no, day_no, W.content_id as content_id,
 		waypoint_order, waypoint_content, waypoint_status, waypoint_add_time,
 		title as content_title, addr1 as content_addr1, first_image as
-		content_first_image
+		content_first_image, latitude, longitude
 		from waypoint W
 		join attraction_info A
 		on W.content_id = A.content_id

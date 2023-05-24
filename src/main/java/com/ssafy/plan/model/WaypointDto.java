@@ -28,10 +28,14 @@ public class WaypointDto {
 	@ApiModelProperty(value = "관광지 사진")
 	private String firstImage;
 	
+	private double latitude;
+	private double longitude;
+	
 	public WaypointDto() {	}
 
 	public WaypointDto(int waypointNo, int dayNo, int contentId, int waypointOrder, String waypointContent,
-			int waypointStatus, String waypointAddTime, String title, String addr1, String firstImage) {
+			int waypointStatus, String waypointAddTime, String title, String addr1, String firstImage, double latitude,
+			double longitude) {
 		super();
 		this.waypointNo = waypointNo;
 		this.dayNo = dayNo;
@@ -43,9 +47,9 @@ public class WaypointDto {
 		this.title = title;
 		this.addr1 = addr1;
 		this.firstImage = firstImage;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
-
-
 
 	public int getWaypointNo() {
 		return waypointNo;
@@ -126,14 +130,29 @@ public class WaypointDto {
 	public void setFirstImage(String firstImage) {
 		this.firstImage = firstImage;
 	}
+	
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
 
 	@Override
 	public String toString() {
 		return "WaypointDto [waypointNo=" + waypointNo + ", dayNo=" + dayNo + ", contentId=" + contentId
 				+ ", waypointOrder=" + waypointOrder + ", waypointContent=" + waypointContent + ", waypointStatus="
 				+ waypointStatus + ", waypointAddTime=" + waypointAddTime + ", title=" + title + ", addr1=" + addr1
-				+ ", firstImage=" + firstImage + "]";
+				+ ", firstImage=" + firstImage + ", latitude=" + latitude + ", longitude=" + longitude + "]";
 	}
 
-	
 }
