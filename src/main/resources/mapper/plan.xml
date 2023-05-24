@@ -43,5 +43,7 @@
 		set plan_status = 0
 		where plan_no = #{planNo}
 	</update>
+	
+	
 
 </mapper>

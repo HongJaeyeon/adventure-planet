@@ -10,8 +10,7 @@
 		<result column="plan_no" property="planNo" />
 		<result column="to_user_id" property="toUserId" />
 		<result column="share_status" property="shareStatus" />
-		<result column="share_create_time"
-			property="shareCreateTime" />
+		<result column="share_create_time" property="shareCreateTime" />
 	</resultMap>
 
 	<insert id="addShare" parameterType="ShareDto">
@@ -20,5 +19,12 @@
 		values (#{fromUserId},
 		#{planNo}, #{toUserId})
 	</insert>
+
+	<select id="listShare" parameterType="string" resultType="int">
+		select plan_no
+		from share
+		where share_status = 1
+		and to_user_id = #{userId}
+	</select>
 
 </mapper>

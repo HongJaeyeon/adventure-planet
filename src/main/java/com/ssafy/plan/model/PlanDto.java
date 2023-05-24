@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "PlanDto (여행 계획 정보)", description = "여행 계획의 정보를 담는 클래스")
-public class PlanDto {
+public class PlanDto implements Comparable<PlanDto>{
 	
 	@ApiModelProperty(value = "여행 계획 번호")
 	private int planNo;
@@ -20,13 +20,15 @@ public class PlanDto {
 	private String planCreateTime;
 	@ApiModelProperty(value = "여행 계획 세부 내용")
 	private String planContent;
+	@ApiModelProperty(value = "여행 계획의 공유 여부")
+	private boolean isShared;
 	@ApiModelProperty(value = "여행 계획의 day")
 	private List<DayDto> days;
 	
 	public PlanDto() {	}
 	
 	public PlanDto(int planNo, String userId, String planTitle, int planStatus, String planCreateTime,
-			String planContent, List<DayDto> days) {
+			String planContent, boolean isShared, List<DayDto> days) {
 		super();
 		this.planNo = planNo;
 		this.userId = userId;
@@ -34,6 +36,7 @@ public class PlanDto {
 		this.planStatus = planStatus;
 		this.planCreateTime = planCreateTime;
 		this.planContent = planContent;
+		this.isShared = isShared;
 		this.days = days;
 	}
 
@@ -92,12 +95,28 @@ public class PlanDto {
 	public void setDays(List<DayDto> days) {
 		this.days = days;
 	}
+	
+	public boolean getIsShared() {
+		return isShared;
+	}
+
+	public void setIsShared(boolean isShared) {
+		this.isShared = isShared;
+	}
 
 	@Override
 	public String toString() {
 		return "PlanDto [planNo=" + planNo + ", userId=" + userId + ", planTitle=" + planTitle + ", planStatus="
-				+ planStatus + ", planCreateTime=" + planCreateTime + ", planContent=" + planContent + ", days=" + days
-				+ "]";
+				+ planStatus + ", planCreateTime=" + planCreateTime + ", planContent=" + planContent + ", isShared="
+				+ isShared + ", days=" + days + "]";
 	}
 
+	@Override
+	public int compareTo(PlanDto o) {
+		return -this.planCreateTime.compareTo(o.planCreateTime);
+	}
+	
+	
+
+	
 }

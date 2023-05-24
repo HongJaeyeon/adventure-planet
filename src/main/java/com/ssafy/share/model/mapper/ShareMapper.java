@@ -14,4 +14,6 @@ public interface ShareMapper {
 
 	void addShare(ShareDto shareDto);
 
+	List<Integer> listShare(String userId);
+
 }
