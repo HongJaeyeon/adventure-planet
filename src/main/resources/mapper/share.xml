@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.share.model.mapper.ShareMapper">
+
+	<resultMap type="ShareDto" id="share">
+		<result column="share_no" property="shareNo" />
+		<result column="from_user_id" property="fromUserId" />
+		<result column="plan_no" property="planNo" />
+		<result column="to_user_id" property="toUserId" />
+		<result column="share_status" property="shareStatus" />
+		<result column="share_create_time"
+			property="shareCreateTime" />
+	</resultMap>
+
+	<insert id="addShare" parameterType="ShareDto">
+		insert into
+		share(from_user_id, plan_no, to_user_id)
+		values (#{fromUserId},
+		#{planNo}, #{toUserId})
+	</insert>
+
+</mapper>
