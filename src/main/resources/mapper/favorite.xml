@@ -84,5 +84,6 @@
 		on F.content_id = A.content_id
 		where user_id = #{userId}
 		and favorite_status = 1
+		order by favorite_add_time desc
 	</select>
 </mapper>
