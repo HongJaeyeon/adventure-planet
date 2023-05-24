@@ -205,14 +205,23 @@ public class PlanController {
 	@PostMapping("/add/Waypoint/{dayNo}")
 	@ApiOperation(value = "여행 계획에 날짜 추가", notes = "여행 계획에 날짜를 추가합니다.")
 	@ApiResponses({@ApiResponse(code = 200, message = "날짜 추가 OK"), @ApiResponse(code = 500, message = "서버 에러")})
-	public ResponseEntity<?> addDay(@PathVariable int dayNo, @RequestBody List<WaypointDto> waypointDtos) {
+	public ResponseEntity<?> addDay(@PathVariable int dayNo, @RequestBody Map<String, Object> map) {
 
 		try {
 			
-			System.out.println(waypointDtos);
+			List<Map<String, Object>> list = (List<Map<String, Object>>) map.get("addWaypointList");
 			
-			for (WaypointDto waypointDto : waypointDtos) {
+			System.out.println(list);
+			
+			for (Map<String, Object> ele : list) {
+				WaypointDto waypointDto = new WaypointDto();
+				
+				waypointDto.setContentId((int) ele.get("contentId"));
+				waypointDto.setWaypointOrder((int) ele.get("waypointOrder"));				
 				waypointDto.setDayNo(dayNo);
+				
+				System.out.println(waypointDto);
+				
 				planService.addWaypoint(waypointDto);
 			}
 
