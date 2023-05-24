@@ -79,6 +79,11 @@ public class FavoriteController {
 	public ResponseEntity<?> listFavorite(@PathVariable String userId) {
 		try {
 			List<AttractionDto> list = favoriteService.listFavorite(userId);
+			
+			for (AttractionDto attractionDto : list) {
+				attractionDto.setIsFavorite(true);
+			}
+			
 			return new ResponseEntity<>(list, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
