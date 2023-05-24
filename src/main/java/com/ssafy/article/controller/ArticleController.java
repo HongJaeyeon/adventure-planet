@@ -56,13 +56,18 @@ public class ArticleController {
     @ApiOperation(value = "게시글 등록", notes = "게시글을 등록합니다.")
     @ApiResponses({@ApiResponse(code = 200, message = "게시글 등록 OK"), @ApiResponse(code = 500, message = "서버 에러")})
     //자원 요청의 body에 담아 오기에 @RequestBody
-    public ResponseEntity<?> write(@RequestParam Map<String, String> articleDto, @RequestParam(value = "images", required = false) MultipartFile[] multipartFiles) {
+    public ResponseEntity<?> write(@RequestParam Map<String, Object> articleDto, @RequestParam(value = "images", required = false) MultipartFile[] multipartFiles) {
         logger.debug("articleDto info : {}", articleDto);
         System.out.println(Arrays.toString(multipartFiles));
         ArticleDto ari = new ArticleDto();
-        ari.setUserId(articleDto.get("userId"));
-        ari.setArticleTitle(articleDto.get("articleTitle"));
-        ari.setArticleContent(articleDto.get("articleContent"));
+        ari.setUserId((String) articleDto.get("userId"));
+        ari.setArticleTitle((String) articleDto.get("articleTitle"));
+        ari.setArticleContent((String) articleDto.get("articleContent"));
+        if (articleDto.get("articleStatus") != null) {
+        	ari.setArticleStatus(Integer.parseInt((String) articleDto.get("articleStatus")));
+        } else {
+        	ari.setArticleStatus(1);
+        }
         try {
             articleService.write(ari);
             System.out.println(ari.getArticleNo());
