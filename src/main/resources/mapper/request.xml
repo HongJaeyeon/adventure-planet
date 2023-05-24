@@ -26,11 +26,18 @@
 		resultMap="request">
 		select request_no, from_user_id, P.plan_no as plan_no,
 		plan_title, to_user_id, request_status, request_create_time
-		from request R
+		from
+		request R
 		join plan P
 		on R.plan_no = P.plan_no
 		where request_status = 1
 		and to_user_id = #{userId}
 	</select>
+
+	<update id="deleteRequest" parameterType="int">
+		update request
+		set request_status = 0
+		where request_no = #{requestNo}
+	</update>
 
 </mapper>

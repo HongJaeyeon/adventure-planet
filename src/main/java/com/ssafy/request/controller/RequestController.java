@@ -75,4 +75,17 @@ public class RequestController {
 			return exceptionHandling(e);
 		}
 	}
+	
+	@PutMapping(value = "/delete/{requestNo}")
+	@ApiOperation(value = "공유 요청 삭제", notes = "공유 요청을 거절합니다.")
+	@ApiResponses({@ApiResponse(code = 200, message = "요청 삭제 OK"), @ApiResponse(code = 500, message = "서버 에러")})
+	public ResponseEntity<?> deleteRequest(@PathVariable int requestNo) {
+		logger.debug("requestNo info : {}", requestNo);
+		try {
+			requestService.deleteRequest(requestNo);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
 }

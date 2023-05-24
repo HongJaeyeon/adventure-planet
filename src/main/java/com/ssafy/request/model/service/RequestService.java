@@ -12,4 +12,6 @@ public interface RequestService {
 
 	List<RequestDto> listRequest(String userId);
 
+	void deleteRequest(int requestNo);
+
 }

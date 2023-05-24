@@ -15,4 +15,6 @@ public interface RequestMapper {
 
 	List<RequestDto> listRequest(String userId);
 
+	void deleteRequest(int requestNo);
+
 }
