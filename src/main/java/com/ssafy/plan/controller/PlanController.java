@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/plan")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Api(tags = {"여행 계획 API"})
 public class PlanController {
 
@@ -64,6 +66,23 @@ public class PlanController {
 //					}
 //				}
 //			}
+
+			return new ResponseEntity<Integer>(planNo, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+
+	}
+	
+	@GetMapping("/addDay/{planNo}")
+	@ApiOperation(value = "여행 계획에 날짜 추가", notes = "여행 계획에 날짜를 추가합니다.")
+	@ApiResponses({@ApiResponse(code = 200, message = "날짜 추가 OK"), @ApiResponse(code = 500, message = "서버 에러")})
+	public ResponseEntity<?> addDay(@PathVariable int planNo) {
+
+		try {
+			DayDto dayDto = planService.getNextDate(planNo);
+//			planService.addDay(planDto);
+//			int planNo = planDto.getPlanNo();
 
 			return new ResponseEntity<Integer>(planNo, HttpStatus.OK);
 		} catch (Exception e) {
