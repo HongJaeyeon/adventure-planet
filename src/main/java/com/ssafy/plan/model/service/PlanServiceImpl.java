@@ -56,11 +56,6 @@ public class PlanServiceImpl implements PlanService{
 	}
 
 	@Override
-	public List<WaypointDto> listWaypoint(int dayNo) {
-		return waypointMapper.listWaypoint(dayNo);
-	}
-
-	@Override
 	public void deletePlan(int planNo) {
 		planMapper.deletePlan(planNo);
 	}
@@ -78,6 +73,11 @@ public class PlanServiceImpl implements PlanService{
 	@Override
 	public int getNextDayOrder(int planNo) {
 		return dayMapper.getNextDayOrder(planNo);
+	}
+
+	@Override
+	public List<WaypointDto> listWaypoint(int dayNo) {
+		return waypointMapper.listWaypoint(dayNo);
 	}
 	
 }

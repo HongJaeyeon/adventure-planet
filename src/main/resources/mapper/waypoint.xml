@@ -13,6 +13,10 @@
 		<result column="waypoint_content" property="waypointContent" />
 		<result column="waypoint_status" property="waypointStatus" />
 		<result column="waypoint_add_time" property="waypointAddTime" />
+		<result column="content_title" property="contentTitle" />
+		<result column="content_addr1" property="contentAddr1" />
+		<result column="content_first_image"
+			property="contentFirstImage" />
 	</resultMap>
 
 	<insert id="addWaypoint" parameterType="waypointDto">
@@ -24,17 +28,22 @@
 
 	<select id="listWaypoint" parameterType="int"
 		resultMap="waypoint">
-		select *
-		from waypoint
+		select waypoint_no, day_no, W.content_id as content_id,
+		waypoint_order, waypoint_content, waypoint_status, waypoint_add_time,
+		title as content_title, addr1 as content_addr1, first_image as
+		content_first_image
+		from waypoint W
+		join attraction_info A
+		on W.content_id = A.content_id
 		where waypoint_status = 1
-		and day_no =
-		#{dayNo}
+		and day_no = #{dayNo}
 		order by waypoint_order
 	</select>
 
 	<update id="deleteWaypoint" parameterType="int">
 		update waypoint
-		set waypoint_status = 0
+		set
+		waypoint_status = 0
 		where waypoint_no = #{waypointNo}
 	</update>
 

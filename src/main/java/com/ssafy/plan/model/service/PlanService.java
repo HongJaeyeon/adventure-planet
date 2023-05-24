@@ -20,8 +20,6 @@ public interface PlanService {
 
 	List<DayDto> listDay(int planNo);
 
-	List<WaypointDto> listWaypoint(int dayNo);
-
 	void deletePlan(int planNo);
 
 	void deleteDay(int dayNo);
@@ -29,5 +27,7 @@ public interface PlanService {
 	void deleteWaypoint(int waypointNo);
 
 	int getNextDayOrder(int planNo);
+
+	List<WaypointDto> listWaypoint(int dayNo);
 
 }

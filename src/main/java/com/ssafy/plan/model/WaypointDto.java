@@ -21,10 +21,18 @@ public class WaypointDto {
 	@ApiModelProperty(value = "관광지 추가한 시간")
 	private String waypointAddTime;
 	
+	@ApiModelProperty(value = "관광지 이름")
+	private String contentTitle;
+	@ApiModelProperty(value = "관광지 주소")
+	private String contentAddr1;
+	@ApiModelProperty(value = "관광지 사진")
+	private String contentFirstImage;
+	
 	public WaypointDto() {	}
 
 	public WaypointDto(int waypointNo, int dayNo, int contentId, int waypointOrder, String waypointContent,
-			int waypointStatus, String waypointAddTime) {
+			int waypointStatus, String waypointAddTime, String contentTitle, String contentAddr1,
+			String contentFirstImage) {
 		super();
 		this.waypointNo = waypointNo;
 		this.dayNo = dayNo;
@@ -33,6 +41,9 @@ public class WaypointDto {
 		this.waypointContent = waypointContent;
 		this.waypointStatus = waypointStatus;
 		this.waypointAddTime = waypointAddTime;
+		this.contentTitle = contentTitle;
+		this.contentAddr1 = contentAddr1;
+		this.contentFirstImage = contentFirstImage;
 	}
 
 	public int getWaypointNo() {
@@ -90,12 +101,37 @@ public class WaypointDto {
 	public void setWaypointAddTime(String waypointAddTime) {
 		this.waypointAddTime = waypointAddTime;
 	}
+	
+	public String getContentTitle() {
+		return contentTitle;
+	}
+
+	public void setContentTitle(String contentTitle) {
+		this.contentTitle = contentTitle;
+	}
+
+	public String getContentAddr1() {
+		return contentAddr1;
+	}
+
+	public void setContentAddr1(String contentAddr1) {
+		this.contentAddr1 = contentAddr1;
+	}
+
+	public String getContentFirstImage() {
+		return contentFirstImage;
+	}
+
+	public void setContentFirstImage(String contentFirstImage) {
+		this.contentFirstImage = contentFirstImage;
+	}
 
 	@Override
 	public String toString() {
 		return "WaypointDto [waypointNo=" + waypointNo + ", dayNo=" + dayNo + ", contentId=" + contentId
 				+ ", waypointOrder=" + waypointOrder + ", waypointContent=" + waypointContent + ", waypointStatus="
-				+ waypointStatus + ", waypointAddTime=" + waypointAddTime + "]";
+				+ waypointStatus + ", waypointAddTime=" + waypointAddTime + ", contentTitle=" + contentTitle
+				+ ", contentAddr1=" + contentAddr1 + ", contentFirstImage=" + contentFirstImage + "]";
 	}
 
 }
