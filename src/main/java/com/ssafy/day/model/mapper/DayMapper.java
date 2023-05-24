@@ -15,6 +15,6 @@ public interface DayMapper {
 
 	void deleteDay(int dayNo);
 
-	DayDto getNextDate(int planNo);
+	int getNextDayOrder(int planNo);
 
 }

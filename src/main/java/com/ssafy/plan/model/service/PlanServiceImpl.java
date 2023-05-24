@@ -76,8 +76,8 @@ public class PlanServiceImpl implements PlanService{
 	}
 
 	@Override
-	public DayDto getNextDate(int planNo) {
-		return dayMapper.getNextDate(planNo);
+	public int getNextDayOrder(int planNo) {
+		return dayMapper.getNextDayOrder(planNo);
 	}
 	
 }

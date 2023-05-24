@@ -76,19 +76,20 @@ public class PlanController {
 
 	}
 	
-	@GetMapping("/addDay/{planNo}")
+	@PostMapping("/addDay")
 	@ApiOperation(value = "여행 계획에 날짜 추가", notes = "여행 계획에 날짜를 추가합니다.")
 	@ApiResponses({@ApiResponse(code = 200, message = "날짜 추가 OK"), @ApiResponse(code = 500, message = "서버 에러")})
-	public ResponseEntity<?> addDay(@PathVariable int planNo) {
+	public ResponseEntity<?> addDay(@RequestBody DayDto dayDto) {
 
 		try {
-			DayDto dayDto = planService.getNextDate(planNo);
-			dayDto.setPlanNo(planNo);
+			System.out.println(dayDto);
+			int dayOrder = planService.getNextDayOrder(dayDto.getPlanNo());
+			dayDto.setDayOrder(dayOrder);
 			planService.addDay(dayDto);
 			int dayNo = dayDto.getDayNo();
 			
 			Map<String, Object> map = new HashMap<String, Object>();
-			List<DayDto> list = planService.listDay(planNo);
+			List<DayDto> list = planService.listDay(dayDto.getPlanNo());
 			
 			map.put("dayNo", dayNo);
 			map.put("days", list);

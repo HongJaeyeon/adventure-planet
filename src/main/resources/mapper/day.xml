@@ -39,10 +39,9 @@
 		where day_no = #{dayNo}
 	</update>
 
-	<select id="getNextDate" parameterType="int" resultMap="day">
+	<select id="getNextDayOrder" parameterType="int" resultType="int">
 		select
-		max(day_order) + 1 as day_order, TIMESTAMPADD(day, 1, max(day_date))
-		as day_date
+		max(day_order) + 1 as day_order
 		from day
 		where plan_no = #{planNo}
 	</select>
