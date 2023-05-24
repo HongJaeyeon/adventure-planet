@@ -49,23 +49,23 @@ public class PlanController {
 		try {
 			planService.writePlan(planDto);
 			int planNo = planDto.getPlanNo();
-			System.out.println("planNo : " + planNo);
-			if (planDto.getDays() != null) {
-				for (DayDto dayDto : planDto.getDays()) {
-					dayDto.setPlanNo(planNo);
-					planService.addDay(dayDto);
-					int dayNo = dayDto.getDayNo();
-					System.out.println("dayNo : " + dayNo);
-					if (dayDto.getWaypoints() != null) {
-						for (WaypointDto waypointDto : dayDto.getWaypoints()) {
-							waypointDto.setDayNo(dayNo);
-							planService.addWaypoint(waypointDto);
-						}
-					}
-				}
-			}
+//			System.out.println("planNo : " + planNo);
+//			if (planDto.getDays() != null) {
+//				for (DayDto dayDto : planDto.getDays()) {
+//					dayDto.setPlanNo(planNo);
+//					planService.addDay(dayDto);
+//					int dayNo = dayDto.getDayNo();
+//					System.out.println("dayNo : " + dayNo);
+//					if (dayDto.getWaypoints() != null) {
+//						for (WaypointDto waypointDto : dayDto.getWaypoints()) {
+//							waypointDto.setDayNo(dayNo);
+//							planService.addWaypoint(waypointDto);
+//						}
+//					}
+//				}
+//			}
 
-			return new ResponseEntity<PlanDto>(HttpStatus.OK);
+			return new ResponseEntity<Integer>(planNo, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
