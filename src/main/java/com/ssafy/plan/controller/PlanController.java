@@ -76,7 +76,7 @@ public class PlanController {
 
 	}
 	
-	@PostMapping("/addDay")
+	@PostMapping("/add/Day")
 	@ApiOperation(value = "여행 계획에 날짜 추가", notes = "여행 계획에 날짜를 추가합니다.")
 	@ApiResponses({@ApiResponse(code = 200, message = "날짜 추가 OK"), @ApiResponse(code = 500, message = "서버 에러")})
 	public ResponseEntity<?> addDay(@RequestBody DayDto dayDto) {
@@ -194,6 +194,27 @@ public class PlanController {
 		try {
 
 			planService.deleteWaypoint(dayNo);
+
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+
+	}
+	
+	@PostMapping("/add/Waypoint/{dayNo}")
+	@ApiOperation(value = "여행 계획에 날짜 추가", notes = "여행 계획에 날짜를 추가합니다.")
+	@ApiResponses({@ApiResponse(code = 200, message = "날짜 추가 OK"), @ApiResponse(code = 500, message = "서버 에러")})
+	public ResponseEntity<?> addDay(@PathVariable int dayNo, @RequestBody List<WaypointDto> waypointDtos) {
+
+		try {
+			
+			System.out.println(waypointDtos);
+			
+			for (WaypointDto waypointDto : waypointDtos) {
+				waypointDto.setDayNo(dayNo);
+				planService.addWaypoint(waypointDto);
+			}
 
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
