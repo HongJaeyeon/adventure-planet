@@ -28,6 +28,7 @@
 		from plan
 		where plan_status = 1
 		and user_id = #{userId}
+		order by plan_create_time desc
 	</select>
 
 	<select id="detailPlan" parameterType="int" resultMap="plan">
