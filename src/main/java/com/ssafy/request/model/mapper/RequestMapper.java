@@ -13,4 +13,6 @@ public interface RequestMapper {
 
 	void addRequest(RequestDto requestDto);
 
+	List<RequestDto> listRequest(String userId);
+
 }

@@ -22,6 +22,11 @@ public class RequestServiceImpl implements RequestService {
 	@Override
 	public void addRequest(RequestDto requestDto) {
 		requestMapper.addRequest(requestDto);
+	}
+
+	@Override
+	public List<RequestDto> listRequest(String userId) {
+		return requestMapper.listRequest(userId);
 	}	
 	
 }

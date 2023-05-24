@@ -10,4 +10,6 @@ public interface RequestService {
 
 	void addRequest(RequestDto requestDto);
 
+	List<RequestDto> listRequest(String userId);
+
 }

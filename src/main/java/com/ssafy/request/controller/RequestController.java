@@ -62,4 +62,17 @@ public class RequestController {
 			return exceptionHandling(e);
 		}
 	}
+	
+	@GetMapping(value = "/list/{userId}")
+	@ApiOperation(value = "공유 요청 리스트 조회", notes = "공유 요청 받은 여행 계획 리스트를 조회합니다.")
+	@ApiResponses({@ApiResponse(code = 200, message = "요청 추가 OK"), @ApiResponse(code = 500, message = "서버 에러")})
+	public ResponseEntity<?> listRequest(@PathVariable String userId) {
+		logger.debug("to_user_id info : {}", userId);
+		try {
+			List<RequestDto> list = requestService.listRequest(userId);
+			return new ResponseEntity<List<RequestDto>>(list, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
 }

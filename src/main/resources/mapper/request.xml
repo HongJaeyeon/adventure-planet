@@ -15,9 +15,18 @@
 			property="requestCreateTime" />
 	</resultMap>
 
-	<select id="addRequest" parameterType="RequestDto">
-		insert into request(from_user_id, plan_no, to_user_id)
-		values (#{fromUserId}, #{planNo}, #{toUserId})
+	<insert id="addRequest" parameterType="RequestDto">
+		insert into
+		request(from_user_id, plan_no, to_user_id)
+		values (#{fromUserId},
+		#{planNo}, #{toUserId})
+	</insert>
+
+	<select id="listRequest" parameterType="string" resultMap="request">
+		select *
+		from request
+		where request_status = 1
+		and to_user_id = #{userId}
 	</select>
 
 </mapper>
