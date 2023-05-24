@@ -22,9 +22,13 @@
 		#{planNo}, #{toUserId})
 	</insert>
 
-	<select id="listRequest" parameterType="string" resultMap="request">
-		select *
-		from request
+	<select id="listRequest" parameterType="string"
+		resultMap="request">
+		select request_no, from_user_id, P.plan_no as plan_no,
+		plan_title, to_user_id, request_status, request_create_time
+		from request R
+		join plan P
+		on R.plan_no = P.plan_no
 		where request_status = 1
 		and to_user_id = #{userId}
 	</select>
