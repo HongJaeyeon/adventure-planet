@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.attraction.model.AttractionDto;
 import com.ssafy.favorite.model.FavoriteDto;
 import com.ssafy.favorite.model.service.FavoriteService;
+import com.ssafy.request.model.RequestDto;
 import com.ssafy.request.model.service.RequestService;
 
 import io.swagger.annotations.Api;
@@ -31,7 +32,7 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/request")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-@Api(tags = {"찜 API"})
+@Api(tags = {"공유 요청 API"})
 public class RequestController {
 	private final Logger logger = LoggerFactory.getLogger(RequestController.class);
 	
@@ -45,5 +46,20 @@ public class RequestController {
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@PostMapping(value = "/add")
+	@ApiOperation(value = "공유 요청 추가", notes = "여행 계획을 공유 요청합니다.")
+	@ApiResponses({@ApiResponse(code = 200, message = "요청 추가 OK"), @ApiResponse(code = 500, message = "서버 에러")})
+	public ResponseEntity<?> addRequest(@RequestBody RequestDto requestDto) {
+		logger.debug("from_user_id info : {}", requestDto.getFromUserId());
+		logger.debug("plan_no info : {}", requestDto.getPlanNo());
+		logger.debug("to_user_id info : {}", requestDto.getToUserId());
+		try {
+			requestService.addRequest(requestDto);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
 	}
 }

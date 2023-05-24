@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper
-	namespace="com.ssafy.request.model.mapper.RequestMapper">
+<mapper namespace="com.ssafy.request.model.mapper.RequestMapper">
 
 	<resultMap type="RequestDto" id="request">
 		<result column="request_no" property="requestNo" />
@@ -12,7 +11,13 @@
 		<result column="plan_title" property="planTitle" />
 		<result column="to_user_id" property="toUserId" />
 		<result column="request_status" property="requestStatus" />
-		<result column="request_create_time" property="requestCreateTime" />
+		<result column="request_create_time"
+			property="requestCreateTime" />
 	</resultMap>
+
+	<select id="addRequest" parameterType="RequestDto">
+		insert into request(from_user_id, plan_no, to_user_id)
+		values (#{fromUserId}, #{planNo}, #{toUserId})
+	</select>
 
 </mapper>

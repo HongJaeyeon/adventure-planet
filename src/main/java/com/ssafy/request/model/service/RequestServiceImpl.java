@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.attraction.model.AttractionDto;
 import com.ssafy.favorite.model.mapper.FavoriteMapper;
+import com.ssafy.request.model.RequestDto;
 import com.ssafy.request.model.mapper.RequestMapper;
 
 @Service
@@ -16,6 +17,11 @@ public class RequestServiceImpl implements RequestService {
 	public RequestServiceImpl(RequestMapper requestMapper) {
 		super();
 		this.requestMapper = requestMapper;
+	}
+
+	@Override
+	public void addRequest(RequestDto requestDto) {
+		requestMapper.addRequest(requestDto);
 	}	
 	
 }
