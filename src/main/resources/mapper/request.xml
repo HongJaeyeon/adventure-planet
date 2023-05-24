@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.ssafy.request.model.mapper.RequestMapper">
+
+	<resultMap type="RequestDto" id="request">
+		<result column="request_no" property="requestNo" />
+		<result column="from_user_id" property="fromUserId" />
+		<result column="plan_no" property="planNo" />
+		<result column="plan_title" property="planTitle" />
+		<result column="to_user_id" property="toUserId" />
+		<result column="request_status" property="requestStatus" />
+		<result column="request_create_time" property="requestCreateTime" />
+	</resultMap>
+
+</mapper>
