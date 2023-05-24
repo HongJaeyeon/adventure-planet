@@ -34,8 +34,17 @@
 
 	<update id="deleteDay" parameterType="int">
 		update day
-		set day_status = 0
+		set day_status =
+		0
 		where day_no = #{dayNo}
 	</update>
-	
+
+	<select id="getNextDate" parameterType="int" resultMap="day">
+		select
+		max(day_order) + 1 as day_order, TIMESTAMPADD(day, 1, max(day_date))
+		as day_date
+		from day
+		where plan_no = #{planNo}
+	</select>
+
 </mapper>

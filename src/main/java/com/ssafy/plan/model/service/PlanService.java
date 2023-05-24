@@ -28,4 +28,6 @@ public interface PlanService {
 
 	void deleteWaypoint(int waypointNo);
 
+	DayDto getNextDate(int planNo);
+
 }

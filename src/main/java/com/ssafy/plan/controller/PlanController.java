@@ -1,6 +1,8 @@
 package com.ssafy.plan.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -81,10 +83,19 @@ public class PlanController {
 
 		try {
 			DayDto dayDto = planService.getNextDate(planNo);
-//			planService.addDay(planDto);
-//			int planNo = planDto.getPlanNo();
+			dayDto.setPlanNo(planNo);
+			planService.addDay(dayDto);
+			int dayNo = dayDto.getDayNo();
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			List<DayDto> list = planService.listDay(planNo);
+			
+			map.put("dayNo", dayNo);
+			map.put("days", list);
+			
+			System.out.println(map);
 
-			return new ResponseEntity<Integer>(planNo, HttpStatus.OK);
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}

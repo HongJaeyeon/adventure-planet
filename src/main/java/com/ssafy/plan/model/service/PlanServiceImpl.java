@@ -74,6 +74,10 @@ public class PlanServiceImpl implements PlanService{
 	public void deleteWaypoint(int waypointNo) {
 		waypointMapper.deleteWaypoint(waypointNo);
 	}
-	
+
+	@Override
+	public DayDto getNextDate(int planNo) {
+		return dayMapper.getNextDate(planNo);
+	}
 	
 }
