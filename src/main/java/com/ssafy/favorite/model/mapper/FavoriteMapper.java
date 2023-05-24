@@ -20,4 +20,6 @@ public interface FavoriteMapper {
 
 	List<AttractionDto> listFavorite(String userId);
 
+	int checkAllFavorite(Map<String, Object> map);
+
 }

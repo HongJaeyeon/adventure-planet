@@ -43,6 +43,14 @@
 		#{contentId}
 		and favorite_status = 1
 	</select>
+	
+	<select id="checkAllFavorite" parameterType="map" resultType="int">
+		select count(*)
+		from favorite
+		where user_id = #{userId}
+		and content_id =
+		#{contentId}
+	</select>
 
 	<update id="updateRevival" parameterType="map">
 		update favorite

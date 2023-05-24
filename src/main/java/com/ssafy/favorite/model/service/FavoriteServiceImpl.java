@@ -19,7 +19,7 @@ public class FavoriteServiceImpl implements FavoriteService {
 
 	@Override
 	public void addFavorite(Map<String, Object> map) {	
-		if (favoriteMapper.checkFavorite(map) == 1) {
+		if (favoriteMapper.checkAllFavorite(map) == 1) {
 			favoriteMapper.updateRevival(map);
 		} else {
 			favoriteMapper.addFavorite(map);
