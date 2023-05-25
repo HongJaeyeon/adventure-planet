@@ -23,7 +23,7 @@
 	<select id="login" parameterType="userDto" resultMap="user">
 		select *
 		from user
-		where user_id = #{userId} and user_password = #{userPassword}
+		where user_id = #{userId}
 	</select>
 	
 	<!-- User List -->

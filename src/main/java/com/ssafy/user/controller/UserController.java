@@ -79,7 +79,7 @@ public class UserController {
 		HttpStatus status = null;
 		try {
 			UserDto loginUser = userService.login(userDto);
-			if (loginUser != null) {
+			if (loginUser != null && crypt.checkPw(userDto.getUserPassword(), loginUser.getUserPassword())) {
 				String accessToken = jwtService.createAccessToken("userid", loginUser.getUserId());// key, data
 				String refreshToken = jwtService.createRefreshToken("userid", loginUser.getUserId());// key, data
 				userService.saveRefreshToken(userDto.getUserId(), refreshToken);
