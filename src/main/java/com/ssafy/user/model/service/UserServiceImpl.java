@@ -20,9 +20,8 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public UserDto regist(UserDto userDto) throws SQLException {
+	public void regist(UserDto userDto) throws SQLException {
 		userMapper.regist(userDto);
-		return userMapper.detail(userDto.getUserId());
 	}
 	
 	@Override

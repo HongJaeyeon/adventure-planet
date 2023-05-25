@@ -7,7 +7,7 @@ import com.ssafy.user.model.UserDto;
 
 public interface UserService {
 
-	public UserDto regist(UserDto userDto) throws SQLException;
+	public void regist(UserDto userDto) throws SQLException;
 	public UserDto login(UserDto userDto) throws SQLException;
 	public List<UserDto> list();
 	public UserDto detail(String userId);

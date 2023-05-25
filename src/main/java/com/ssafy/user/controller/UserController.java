@@ -64,8 +64,8 @@ public class UserController {
 	public ResponseEntity<?> regist(@RequestBody UserDto userDto) {
 		try {
 			userDto.setUserPassword(crypt.encryptPw(userDto.getUserPassword()));
-			UserDto resultUserDto = userService.regist(userDto);
-			return new ResponseEntity<UserDto>(resultUserDto, HttpStatus.OK);
+			userService.regist(userDto);
+			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
