@@ -63,6 +63,7 @@ public class UserController {
 	@ApiResponses({@ApiResponse(code = 200, message = "유저 등록 OK"), @ApiResponse(code = 500, message = "서버 에러")})
 	public ResponseEntity<?> regist(@RequestBody UserDto userDto) {
 		try {
+			userDto.setUserPassword(crypt.encryptPw(userDto.getUserPassword()));
 			UserDto resultUserDto = userService.regist(userDto);
 			return new ResponseEntity<UserDto>(resultUserDto, HttpStatus.OK);
 		} catch (Exception e) {
